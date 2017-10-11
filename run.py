@@ -102,6 +102,6 @@ if __name__ == '__main__':
     app.register_blueprint(auth_b)
 
     # if not os.path.exists('db.sqlite'):
-    db.create_all()
+    # db.create_all()
 
     app.run(debug=True)
