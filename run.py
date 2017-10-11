@@ -1,12 +1,11 @@
 from flask import Flask, Blueprint
-from flask.ext import restful
 from ro.views import hell  # module
 from api.api import api_bp  # module
 
 from flask_login import LoginManager, login_required, login_user, logout_user, UserMixin
 from flask_admin import Admin, BaseView, expose
 from flask_sqlalchemy import SQLAlchemy
-from flask.ext.restful import Api
+from flask_restful import Api
 
 app = Flask(__name__)
 
