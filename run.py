@@ -1,14 +1,38 @@
 from flask import Flask, Blueprint
 from flask.ext import restful
-from ro.views import hell
-from api.api import api_bp
-from flask.ext.login import LoginManager, login_required, login_user,logout_user, UserMixin
+from ro.views import hell  # module
+from api.api import api_bp  # module
+
+from flask_login import LoginManager, login_required, login_user, logout_user, UserMixin
 from flask_admin import Admin, BaseView, expose
+from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
-# app.register_blueprint(hell)
-# app.register_blueprint(api_bp)
-# api = restful.Api(app)
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sample_db.sqlite'
+
+app.config['SQLALCHEMY_ECHO'] = True
+
+b = SQLAlchemy(app)
+db = SQLAlchemy(app)
+
+
+class UserDB(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True)
+    email = db.Column(db.String(120), unique=True)
+
+    def __init__(self, username, email):
+        self.username = username
+        self.email = email
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
 
 # 以下这段是新增加的============
 app.secret_key = 's3cr3t'
@@ -17,6 +41,7 @@ login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
 login_manager.login_message = u"请登录！"
+
 
 # user models
 class User(UserMixin):
@@ -32,15 +57,18 @@ class User(UserMixin):
     def get_id(self):
         return "1"
 
+
 @login_manager.user_loader
 def load_user(user_id):
     user = User()
     return user
 
+
 @app.route('/test')
 @login_required
 def test():
-    return "yes , you are allowed"
+    return "yes , you are allowed" + app.config['SQLALCHEMY_DATABASE_URI']
+
 
 auth_b = Blueprint('auth', __name__)
 
@@ -64,10 +92,16 @@ class MyView(BaseView):
     def index(self):
         return "aaaa"
 
+
 if __name__ == '__main__':
     admin = Admin(app, name='My App')
     admin.add_view(MyView(name='Hello'))
+
     app.register_blueprint(hell)
     app.register_blueprint(api_bp)
     app.register_blueprint(auth_b)
+
+    # if not os.path.exists('db.sqlite'):
+    db.create_all()
+
     app.run(debug=True)
