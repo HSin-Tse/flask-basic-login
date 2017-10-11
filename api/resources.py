@@ -7,7 +7,7 @@ from flask_restful import reqparse,abort,Resource,fields,marshal_with
 todo_fields = {
     'id': fields.Integer,
     'task': fields.String,
-    'uri': fields.Url('todo', absolute=True),
+    'uri': fields.Url('api.todo', absolute=True),
 }
 
 parser = reqparse.RequestParser()
