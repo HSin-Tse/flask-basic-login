@@ -6,11 +6,12 @@ from api.api import api_bp  # module
 from flask_login import LoginManager, login_required, login_user, logout_user, UserMixin
 from flask_admin import Admin, BaseView, expose
 from flask_sqlalchemy import SQLAlchemy
-import os
+from flask.ext.restful import Api
 
 app = Flask(__name__)
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sample_db.sqlite'
@@ -94,8 +95,18 @@ class MyView(BaseView):
 
 
 if __name__ == '__main__':
+    from resources import TodoListResource
+    from resources import TodoResource
+
+    api = Api(app)
+    api.add_resource(TodoListResource, '/todos', endpoint='todos')
+    api.add_resource(TodoResource, '/todos/<string:id>', endpoint='todo')
+
+
     admin = Admin(app, name='My App')
     admin.add_view(MyView(name='Hello'))
+
+
 
     app.register_blueprint(hell)
     app.register_blueprint(api_bp)
