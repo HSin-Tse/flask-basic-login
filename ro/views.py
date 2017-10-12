@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint,render_template
 
 hell = Blueprint('hello', __name__)
 
@@ -8,4 +8,7 @@ def hello():
     return "Hello World!"
 
 
-
+#
+# @hell.route('/')
+# def home():
+#     return render_template('test.html')
