@@ -3,7 +3,6 @@ from db import session_roles
 from flask import (Flask,
                    render_template)
 from flask_admin import Admin
-
 from admin_helper.adminhelper import MyView
 from api.api import api_bp  # module
 from ro.views import hell  # module
