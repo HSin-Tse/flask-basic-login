@@ -9,6 +9,9 @@ from flask import (
     session,
     url_for)
 
+# from roles import Role, User
+# from db import session_roles
+
 from flask_admin import Admin
 from admin_helper.adminhelper import MyView
 
@@ -110,6 +113,38 @@ def logout():
         session.pop(key, None)
     identity_changed.send(app, identity=AnonymousIdentity())
     return render_template('logout.html')
+
+
+
+@app.errorhandler(401)
+def authentication_failed(e):
+    flash('Authenticated failed.')
+    return redirect(url_for('login'))
+
+
+@app.errorhandler(403)
+def authorisation_failed(e):
+    flash(('Your current identity is {id}. You need special privileges to'
+           ' access this page').format(id=g.identity.id))
+
+    return render_template('privileges.html', priv=current_privileges())
+
+@identity_loaded.connect_via(app)
+def on_identity_loaded(sender, identity):
+    needs = []
+
+    if identity.id in ('the_only_user', 'the_only_editor', 'the_only_admin'):
+        needs.append(to_sign_in)
+
+    if identity.id in ('the_only_editor', 'the_only_admin'):
+        needs.append(be_editor)
+
+    if identity.id == 'the_only_admin':
+        needs.append(be_admin)
+
+    for n in needs:
+        identity.provides.add(n)
+
 
 
 if __name__ == '__main__':
