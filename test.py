@@ -1,15 +1,6 @@
 import os
-
-from flask import (Flask,
-                   render_template)
-from flask_admin import Admin
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-
-from admin_helper.adminhelper import MyView
-from api.api import api_bp  # module
-from ro.views import hell  # module
-
-app = Flask(__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))  # basedir: /Users/tse/Documents/flask/stat-api
 
@@ -48,6 +39,7 @@ class User(db.Model):
 # db.drop_all()
 db.create_all()
 
+
 admin_role = Role(name='admin')
 edit_role = Role(name='edit')
 see_role = Role(name='see')
@@ -58,6 +50,10 @@ user_see = User(username='cansee', role=admin_role)
 
 rolist = [admin_role, edit_role, see_role]
 
+
+
+
+
 # db.session.add_all(rolist)
 # db.session.commit()
 
@@ -65,22 +61,3 @@ print(" Role.query.all():", Role.query.all(), '-->File "test.py", line 52')
 print(" User.query.all():", User.query.all(), '-->File "test.py", line 52')
 
 print(admin_role.id)
-
-
-@app.route('/')
-def home():
-    adddd = User.query.filter_by(username='tse').all()
-
-    adddd[0]
-    return render_template('test.html', roles=Role.query.all(), users=User.query.all(),
-                           tse=User.query.filter_by(username='tse').all()[0].role.name == 'admin')
-
-
-if __name__ == '__main__':
-    admin = Admin(app, name='Tse')
-    admin.add_view(MyView(name='Hello'))
-
-    app.register_blueprint(hell)
-    app.register_blueprint(api_bp)
-
-    app.run(debug=True)
