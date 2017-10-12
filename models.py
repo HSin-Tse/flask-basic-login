@@ -7,11 +7,13 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+
 class Todo(Base):
     __tablename__ = 'todos'
 
     id = Column(Integer, primary_key=True)
     task = Column(String(255))
+
 
 if __name__ == "__main__":
     from sqlalchemy import create_engine

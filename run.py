@@ -13,7 +13,6 @@ app = Flask(__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))  # basedir: /Users/tse/Documents/flask/stat-api
 
-app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess string'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
