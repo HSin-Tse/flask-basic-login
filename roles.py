@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+from flask_login import UserMixin,login_user
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String, ForeignKey
@@ -7,7 +7,6 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
-
 
 
 class Role(Base):
@@ -20,14 +19,19 @@ class Role(Base):
         return '<Role %r>' % self.name
 
 
-class User(Base):
+class User(Base, UserMixin):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     username = Column(String(64), unique=True, index=True)
     role_id = Column(Integer, ForeignKey('roles.id'))
+    password = Column(String(16))
+    mail = Column(String(64), unique=True, index=True)
 
     def __repr__(self):
         return '<User %r>' % self.username
+
+    def login(self):
+        login_user(self)
 
 
 if __name__ == "__main__":

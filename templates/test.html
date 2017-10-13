@@ -1,3 +1,12 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
   <h2>roles us  {{ roles }}</h2>
-  <h2>users us  {{ users }}</h2>
-  <h2>tse us  {{ tse }}</h2>
+<h2>users us  {{ users }}</h2>
+<h2>tse us  {{ tse }}</h2>
+  {% if error %}
+    <p class=error><strong>Error:</strong> {{ error }}
+  {% endif %}
+  Bye.
+{% endblock %}
