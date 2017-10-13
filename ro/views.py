@@ -2,7 +2,7 @@ from flask import Blueprint, render_template
 
 from db import session_roles
 # from extensions import role_admin
-from extensions import role_admin, admin_permission
+from extensions import role_admin, admin_permission, user_permission
 from roles import User, Role
 
 
@@ -24,7 +24,7 @@ def ssss():
 
 # test
 @hell.route('/test')
-# @admin_permission.require(http_exception=403)
+@user_permission.require(http_exception=403)
 def home():
     return render_template('test.html', roles=session_roles.query(Role).all(), users=session_roles.query(User).all(),
                            tse=session_roles.query(User).filter_by(username='tse').all()[0].role.name == 'admin')

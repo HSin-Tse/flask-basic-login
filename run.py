@@ -15,58 +15,27 @@ from admin_helper.adminhelper import MyView
 
 from api.api import api_bp  # module
 from extensions import principals, role_admin, role_editor, action_sign_in, user_permission, editor_permission, \
-    admin_permission
+    admin_permission, current_privileges
 from ro.views import hell  # module
 
 from flask_principal import (
-    ActionNeed,
     AnonymousIdentity,
     Identity,
     identity_changed,
     identity_loaded,
-    Permission,
-    Principal,
-    RoleNeed)
+)
 
 app = Flask(__name__)
 app.config.update(
     DEBUG=True,
     SECRET_KEY='secret_xxx')
 
-# principals = Principal(app, skip_static=True)
 principals.init_app(app)
 
-# # Needs
-# be_admin = RoleNeed('admin')
-# be_editor = RoleNeed('editor')
-#
-# to_sign_in = ActionNeed('sign in')
-#
-# # Permissions
-# editor = Permission(be_editor)
-# admin = Permission(be_admin)
-#
-# user = Permission(to_sign_in)
-#
-# user.description = "User's permissions"
-# editor.description = "Editor's permissions"
-# admin.description = "Admin's permissions"
-
-
-
-# role_admin = RoleNeed('admin')
-# role_editor = RoleNeed('editor')
-#
-# action_sign_in = ActionNeed('sign in')
-#
-# # Permissions
-# editor_permission = Permission(role_editor)
-# admin_permission = Permission(role_admin)
-#
-# user_permission = Permission(action_sign_in)
-
 apps_needs = [role_admin, role_editor, action_sign_in]
-apps_permissions = [user_permission, editor_permission, admin_permission]
+
+
+# apps_permissions = [user_permission, editor_permission, admin_permission]
 
 
 def authenticate(email, password):
@@ -80,9 +49,7 @@ def authenticate(email, password):
         return None
 
 
-def current_privileges():
-    return (('{method} : {value}').format(method=n.method, value=n.value)
-            for n in apps_needs if n in g.identity.provides)
+
 
 
 @app.route('/')
