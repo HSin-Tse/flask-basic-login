@@ -7,10 +7,9 @@ from flask import (
     render_template,
     request,
     session,
+    current_app,
     url_for)
 
-# from roles import Role, User
-# from db import session_roles
 
 from flask_admin import Admin
 from admin_helper.adminhelper import MyView
@@ -35,6 +34,7 @@ app.config.update(
 
 principals = Principal(app, skip_static=True)
 
+
 # Needs
 be_admin = RoleNeed('admin')
 be_editor = RoleNeed('editor')
@@ -42,11 +42,13 @@ be_editor = RoleNeed('editor')
 to_sign_in = ActionNeed('sign in')
 
 # Permissions
-user = Permission(to_sign_in)
-user.description = "User's permissions"
 editor = Permission(be_editor)
-editor.description = "Editor's permissions"
 admin = Permission(be_admin)
+
+user = Permission(to_sign_in)
+
+user.description = "User's permissions"
+editor.description = "Editor's permissions"
 admin.description = "Admin's permissions"
 
 apps_needs = [be_admin, be_editor, to_sign_in]
@@ -111,7 +113,7 @@ def about():
 def logout():
     for key in ['identity.id', 'identity.auth_type']:
         session.pop(key, None)
-    identity_changed.send(app, identity=AnonymousIdentity())
+    identity_changed.send(current_app._get_current_object(), identity=AnonymousIdentity())
     return render_template('logout.html')
 
 
