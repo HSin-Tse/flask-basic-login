@@ -10,11 +10,12 @@ from flask import (
     current_app,
     url_for)
 
-
 from flask_admin import Admin
 from admin_helper.adminhelper import MyView
 
 from api.api import api_bp  # module
+from extensions import principals, role_admin, role_editor, action_sign_in, user_permission, editor_permission, \
+    admin_permission
 from ro.views import hell  # module
 
 from flask_principal import (
@@ -32,27 +33,40 @@ app.config.update(
     DEBUG=True,
     SECRET_KEY='secret_xxx')
 
-principals = Principal(app, skip_static=True)
+# principals = Principal(app, skip_static=True)
+principals.init_app(app)
+
+# # Needs
+# be_admin = RoleNeed('admin')
+# be_editor = RoleNeed('editor')
+#
+# to_sign_in = ActionNeed('sign in')
+#
+# # Permissions
+# editor = Permission(be_editor)
+# admin = Permission(be_admin)
+#
+# user = Permission(to_sign_in)
+#
+# user.description = "User's permissions"
+# editor.description = "Editor's permissions"
+# admin.description = "Admin's permissions"
 
 
-# Needs
-be_admin = RoleNeed('admin')
-be_editor = RoleNeed('editor')
 
-to_sign_in = ActionNeed('sign in')
+# role_admin = RoleNeed('admin')
+# role_editor = RoleNeed('editor')
+#
+# action_sign_in = ActionNeed('sign in')
+#
+# # Permissions
+# editor_permission = Permission(role_editor)
+# admin_permission = Permission(role_admin)
+#
+# user_permission = Permission(action_sign_in)
 
-# Permissions
-editor = Permission(be_editor)
-admin = Permission(be_admin)
-
-user = Permission(to_sign_in)
-
-user.description = "User's permissions"
-editor.description = "Editor's permissions"
-admin.description = "Admin's permissions"
-
-apps_needs = [be_admin, be_editor, to_sign_in]
-apps_permissions = [user, editor, admin]
+apps_needs = [role_admin, role_editor, action_sign_in]
+apps_permissions = [user_permission, editor_permission, admin_permission]
 
 
 def authenticate(email, password):
@@ -93,13 +107,13 @@ def login():
 
 
 @app.route('/admin')
-@admin.require(http_exception=403)
+@admin_permission.require(http_exception=403)
 def admin():
     return render_template('admin.html')
 
 
 @app.route('/edit')
-@editor.require(http_exception=403)
+@editor_permission.require(http_exception=403)
 def editor():
     return render_template('editor.html')
 
@@ -117,7 +131,6 @@ def logout():
     return render_template('logout.html')
 
 
-
 @app.errorhandler(401)
 def authentication_failed(e):
     flash('Authenticated failed.')
@@ -131,22 +144,22 @@ def authorisation_failed(e):
 
     return render_template('privileges.html', priv=current_privileges())
 
+
 @identity_loaded.connect_via(app)
 def on_identity_loaded(sender, identity):
     needs = []
 
     if identity.id in ('the_only_user', 'the_only_editor', 'the_only_admin'):
-        needs.append(to_sign_in)
+        needs.append(action_sign_in)
 
     if identity.id in ('the_only_editor', 'the_only_admin'):
-        needs.append(be_editor)
+        needs.append(role_editor)
 
     if identity.id == 'the_only_admin':
-        needs.append(be_admin)
+        needs.append(role_admin)
 
     for n in needs:
         identity.provides.add(n)
-
 
 
 if __name__ == '__main__':
