@@ -32,7 +32,6 @@ app.config.update(
 
 principals.init_app(app)
 
-apps_needs = [role_admin, role_editor, action_sign_in]
 
 
 # apps_permissions = [user_permission, editor_permission, admin_permission]

@@ -7,7 +7,17 @@ from flask_principal import (
     Permission,
     Principal,
     RoleNeed)
-
+from flask import (
+    abort,
+    flash,
+    Flask,
+    g,
+    redirect,
+    render_template,
+    request,
+    session,
+    current_app,
+    url_for)
 principals = Principal()
 
 # Needs
@@ -15,6 +25,7 @@ role_admin = RoleNeed('admin')
 role_editor = RoleNeed('editor')
 
 action_sign_in = ActionNeed('sign in')
+# apps_needs = [role_admin, role_editor, action_sign_in]
 
 # Permissions
 editor_permission = Permission(role_editor)

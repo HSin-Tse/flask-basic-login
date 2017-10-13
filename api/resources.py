@@ -1,4 +1,4 @@
-
+from extensions import user_permission
 from models import Todo
 from db import session
 
@@ -14,6 +14,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('task', type=str)
 
 class TodoResource(Resource):
+    # @user_permission.require(http_exception=403)
     @marshal_with(todo_fields)
     def get(self, id):
         todo = session.query(Todo).filter(Todo.id == id).first()
@@ -21,6 +22,7 @@ class TodoResource(Resource):
             abort(404, message="Todo {} doesn't exist".format(id))
         return todo
 
+    # @user_permission.require(http_exception=403)
     def delete(self, id):
         todo = session.query(Todo).filter(Todo.id == id).first()
         if not todo:
