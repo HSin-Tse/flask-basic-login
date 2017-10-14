@@ -70,7 +70,7 @@ def login():
 
     # user = User()
 
-    load_user(user)
+    # load_user(user)
 
     login_user(user)
     return "login page user.id %r " % user.id
@@ -92,7 +92,7 @@ def logout():
 def hello():
     print(" current_user:", current_user, '-->File "run.py", line 93')
 
-    return "Hello World! %r" % current_user.get_username()
+    return "Hello World! %r" % current_user.username
 
 
 @login_manager.user_loader
