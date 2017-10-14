@@ -2,6 +2,7 @@ from flask import (
     Flask,
     Blueprint,
     flash,
+    render_template,
 
 )
 from flask_admin import Admin
@@ -18,7 +19,7 @@ from flask_principal import (
     identity_loaded,
 )
 
-from flask_login import LoginManager, login_required, UserMixin, login_user, logout_user,current_user
+from flask_login import LoginManager, login_required, UserMixin, login_user, logout_user, current_user
 
 from roles import User
 
@@ -35,29 +36,6 @@ login_manager.session_protection = 'strong'
 login_manager.login_message = u"请登录！"
 login_manager.init_app(app)
 
-
-
-
-# user models
-# class User(UserMixin):
-#
-#     name = 'tse'
-#
-#     def is_authenticated(self):
-#         return True
-#
-#     def is_actice(self):
-#         return True
-#
-#     def is_anonymous(self):
-#         return False
-#     def get_name(self):
-#         return self.name
-#     def get_id(self):
-#         return "1"
-#     def __repr__(self):
-#         return '<Role %r>' % self.name
-
 auth = Blueprint('auth', __name__)
 
 
@@ -72,7 +50,7 @@ def login():
 
     # load_user(user)
 
-    login_user(user)
+    login_user(user, True)
     return "login page user.id %r " % user.id
 
 
@@ -81,6 +59,7 @@ def logout():
     flash(u'你已经注销！')
     logout_user()
     return "logout page"
+
 
 # @login_manager.unauthorized_handler(action_sign_in())
 #     def unauthorized():
@@ -93,6 +72,11 @@ def hello():
     print(" current_user:", current_user, '-->File "run.py", line 93')
 
     return "Hello World! %r" % current_user.username
+
+
+@app.route("/lll")
+def wwwww():
+    return render_template('test.html', tse=current_user.role)
 
 
 @login_manager.user_loader
@@ -123,7 +107,6 @@ def on_identity_loaded(sender, identity):
 
     for n in needs:
         identity.provides.add(n)
-
 
         return "logout page"
 
