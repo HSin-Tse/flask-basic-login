@@ -28,6 +28,18 @@ class User(Base, UserMixin):
 
     role_id = Column(Integer, ForeignKey('roles.id'))
 
+    def is_authenticated(self):
+        return True
+
+    def is_actice(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_username(self):
+        return self.username
+
     def __repr__(self):
         return '<User %r>' % self.username
 

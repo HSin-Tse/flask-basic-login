@@ -10,6 +10,7 @@ from sqlalchemy import Column
 from admin_helper.adminhelper import MyView
 
 from api.api import api_bp  # module
+from db import session_roles
 from extensions import principals, role_admin, role_editor, action_sign_in
 from ro.views import hell  # module
 
@@ -18,6 +19,8 @@ from flask_principal import (
 )
 
 from flask_login import LoginManager, login_required, UserMixin, login_user, logout_user,current_user
+
+from roles import User
 
 app = Flask(__name__)
 app.config.update(
@@ -36,35 +39,41 @@ login_manager.init_app(app)
 
 
 # user models
-class User(UserMixin):
-
-    name = 'tse'
-
-    def is_authenticated(self):
-        return True
-
-    def is_actice(self):
-        return True
-
-    def is_anonymous(self):
-        return False
-    def get_name(self):
-        return self.name
-    def get_id(self):
-        return "1"
-    def __repr__(self):
-        return '<Role %r>' % self.name
+# class User(UserMixin):
+#
+#     name = 'tse'
+#
+#     def is_authenticated(self):
+#         return True
+#
+#     def is_actice(self):
+#         return True
+#
+#     def is_anonymous(self):
+#         return False
+#     def get_name(self):
+#         return self.name
+#     def get_id(self):
+#         return "1"
+#     def __repr__(self):
+#         return '<Role %r>' % self.name
 
 auth = Blueprint('auth', __name__)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    user = User()
-    # user = load_user(user)
+    user = session_roles.query(User).first()
+    print(" user get_username:", user.get_username(), '-->File "run.py", line 67')
+    print(" user:", user.id, '-->File "run.py", line 67')
+    # print(" user:", user.username, '-->File "run.py", line 67')
+
+    # user = User()
+
+    load_user(user)
 
     login_user(user)
-    return "login page"
+    return "login page user.id %r " % user.id
 
 
 @auth.route('/logout', methods=['GET', 'POST'])
@@ -81,14 +90,20 @@ def logout():
 @app.route("/")
 # @login_required
 def hello():
-    return "Hello World! %r" % current_user.get_name()
+    print(" current_user:", current_user, '-->File "run.py", line 93')
+
+    return "Hello World! %r" % current_user.get_username()
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    print(" user_id:", user_id, '-->File "run.py", line 77')
+    print(" user_id:", user_id, '-->File "run.py", line 94')
+    print(" user_id:", user_id, '-->File "run.py", line 94')
+    print(" user_id:", user_id, '-->File "run.py", line 94')
 
-    user = User()
+    user = session_roles.query(User).first()
+
+    # user = User()
     return user
     # 以上这段是新增加的============
 
