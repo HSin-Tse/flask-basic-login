@@ -60,6 +60,12 @@ def index():
 @hell.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+
+        usr = session_roles.query(User).filter(User.username == request.form['email']).first()
+        if usr is not None:
+            print(" usr.username:", usr.username, '-->File "views.py", line 66')
+            print(" usr.password:", usr.password, '-->File "views.py", line 66')
+
         user_id = authenticate(request.form['email'],
                                request.form['password'])
         print(" user_id:", user_id, '-->File "run.py", line 82')

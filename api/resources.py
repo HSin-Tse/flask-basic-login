@@ -4,6 +4,15 @@ from db import session
 
 from flask_restful import reqparse,abort,Resource,fields,marshal_with
 
+
+
+# class ㄊTodo(Base):
+#     __tablename__ = 'todos'
+#
+#     id = Column(Integer, primary_key=True)
+#     task = Column(String(255))
+
+
 todo_fields = {
     'id': fields.Integer,
     'task': fields.String,

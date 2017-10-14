@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from flask_login import UserMixin,login_user
+from flask_login import UserMixin, login_user
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String, ForeignKey
@@ -23,9 +23,10 @@ class User(Base, UserMixin):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     username = Column(String(64), unique=True, index=True)
-    role_id = Column(Integer, ForeignKey('roles.id'))
     password = Column(String(16))
     mail = Column(String(64), unique=True, index=True)
+
+    role_id = Column(Integer, ForeignKey('roles.id'))
 
     def __repr__(self):
         return '<User %r>' % self.username
