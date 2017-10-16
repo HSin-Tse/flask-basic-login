@@ -19,7 +19,7 @@ from flask import (
     current_app,
     url_for)
 
-hell = Blueprint('hell', __name__, 'templates',url_prefix='/pr')
+hell = Blueprint('hell', __name__, 'templates', url_prefix='/principal')
 
 
 @hell.route("/hello")
@@ -30,7 +30,8 @@ def hello():
 
 @hell.route('/test2')
 def ssss():
-    return render_template('test.html')
+    return render_template('testnot.html')
+    # return 'ss'
 
 
 # test
@@ -53,7 +54,6 @@ def authenticate(email, password):
 
 @hell.route('/')
 def index():
-
     return render_template('index.html')
 
 

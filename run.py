@@ -1,38 +1,29 @@
 from flask import (
-    Flask,
     Blueprint,
     flash,
     render_template,
 
 )
 from flask_admin import Admin
-from sqlalchemy import Column
 
 from admin_helper.adminhelper import MyView
 
-from api.api import api_bp  # module
 from db import session_roles
-from extensions import principals, role_admin, role_editor, action_sign_in
-from ro.views import hell  # module
-
-from flask_principal import (
-    identity_loaded,
-)
 
 from flask_login import LoginManager, login_required, UserMixin, login_user, logout_user, current_user
 
 from roles import User, Role
+from app import create_app
 
-app = Flask(__name__)
+app = create_app('config')
+
 app.config.update(
     DEBUG=True,
     SECRET_KEY='secret_xxx')
 
-principals.init_app(app)
-
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
-# login_manager.login_view = 'auth.login'
+login_manager.login_view = 'auth.login'
 login_manager.login_message = u"请登录！"
 login_manager.init_app(app)
 
@@ -44,10 +35,6 @@ def login():
     user = session_roles.query(User).first()
     print(" user get_username:", user.get_username(), '-->File "run.py", line 67')
     print(" user:", user.id, '-->File "run.py", line 67')
-    # print(" user:", user.username, '-->File "run.py", line 67')
-
-    # user = User()
-
     # load_user(user)
 
     login_user(user, True)
@@ -60,11 +47,6 @@ def logout():
     logout_user()
     return "logout page"
 
-
-# @login_manager.unauthorized_handler(action_sign_in())
-#     def unauthorized():
-#         # do stuff
-#         return "login unauthorized_handler"
 
 @app.route("/")
 # @login_required
@@ -81,10 +63,6 @@ def wwwww():
 
 @login_manager.user_loader
 def load_user(user_id):
-    print(" user_id:", user_id, '-->File "run.py", line 94')
-    print(" user_id:", user_id, '-->File "run.py", line 94')
-    print(" user_id:", user_id, '-->File "run.py", line 94')
-
     user = session_roles.query(User).first()
 
     # user = User()
@@ -92,43 +70,14 @@ def load_user(user_id):
     # 以上这段是新增加的============
 
 
-@identity_loaded.connect_via(app)
-def on_identity_loaded(sender, identity):
-    needs = []
-
-    if identity.id in ('the_only_user', 'the_only_editor', 'the_only_admin'):
-        needs.append(action_sign_in)
-
-    if identity.id in ('the_only_editor', 'the_only_admin'):
-        needs.append(role_editor)
-
-    if identity.id == 'the_only_admin':
-        needs.append(role_admin)
-
-    for n in needs:
-        identity.provides.add(n)
-
-        return "logout page"
-
-
 from flask_admin.contrib.sqla import ModelView
 
+admin = Admin(app, name='Tse')
+admin.add_view(MyView(name='Hello'))
+admin.add_view(ModelView(User, session_roles))
+admin.add_view(ModelView(Role, session_roles))
+
+app.register_blueprint(auth, url_prefix='/auth')
+
 if __name__ == '__main__':
-    admin = Admin(app, name='Tse')
-    admin.add_view(MyView(name='Hello'))
-    admin.add_view(ModelView(User, session_roles))
-    admin.add_view(ModelView(Role, session_roles))
-
-    app.register_blueprint(hell)
-    app.register_blueprint(api_bp)
-    app.register_blueprint(auth, url_prefix='/auth')
     app.run(debug=True)
-
-    # flask_admin.init_app(app)
-    # # Register view function `CustomView` into Flask-Admin
-    # flask_admin.add_view(CustomView(name='Custom'))
-    # # Register view function `CustomModelView` into Flask-Admin
-    # models = [Role, Tag, Reminder, BrowseVolume]
-    # for model in models:
-    #     flask_admin.add_view(
-    #         CustomModelView(model, db.session, category='Models'))

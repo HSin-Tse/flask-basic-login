@@ -36,7 +36,6 @@ user_permission = Permission(action_sign_in)
 apps_permissions = [user_permission, editor_permission, admin_permission]
 apps_needs = [role_admin, role_editor, action_sign_in]
 
-print(" apps_permissions:", apps_permissions[0], '-->File "extensions.py", line 27')
 
 
 def current_privileges():
