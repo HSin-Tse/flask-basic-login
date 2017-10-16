@@ -1,7 +1,6 @@
 import os
 
 from flask_admin import Admin
-from flask_admin.contrib.fileadmin import FileAdmin
 
 from app import create_app
 from app.controllers.admin import CustomFileAdmin, MyView

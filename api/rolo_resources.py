@@ -3,11 +3,6 @@ from db import session_roles
 
 from flask_restful import reqparse, abort, Resource, fields, marshal_with
 
-# class ㄊTodo(Base):
-#     __tablename__ = 'todos'
-#
-#     id = Column(Integer, primary_key=True)
-#     task = Column(String(255))
 from roles import User
 
 user_fields = {
@@ -66,14 +61,6 @@ class UserListResource(Resource):
         if tell is not None:
             return tell
 
-        print(" tell:", tell, '-->File "rolo_resources.py", line 70')
-        print(" tell:", tell, '-->File "rolo_resources.py", line 70')
-        print(" tell:", tell, '-->File "rolo_resources.py", line 70')
-        print(" tell:", tell, '-->File "rolo_resources.py", line 70')
-        print(" tell:", tell, '-->File "rolo_resources.py", line 70')
-        print(" tell:", tell, '-->File "rolo_resources.py", line 70')
-
-        # todo = Todo(task=parsed_args['task'])
         todo = User(password=parsed_args['password'], username=parsed_args['username'])
         session_roles.add(todo)
 

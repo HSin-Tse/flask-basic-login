@@ -1,12 +1,11 @@
 from flask import Blueprint
-from flask_login import login_user,logout_user,login_required
+from flask_login import login_user, logout_user, login_required
 from flask_principal import (
     AnonymousIdentity,
     Identity,
     identity_changed,
 )
 from db import session_roles
-# from extensions import role_admin
 from extensions import role_admin, admin_permission, user_permission, editor_permission, current_privileges
 from roles import User, Role
 from flask import (
@@ -21,6 +20,7 @@ from flask import (
     url_for)
 
 hell = Blueprint('hell', __name__, 'templates', url_prefix='/principal')
+
 
 @hell.route("/hello")
 @admin_permission.require(http_exception=403)
@@ -95,7 +95,6 @@ def editor():
 
 @hell.route('/about')
 @login_required
-
 def about():
     return render_template('about.html')
 
