@@ -21,7 +21,7 @@ from flask_principal import (
 
 from flask_login import LoginManager, login_required, UserMixin, login_user, logout_user, current_user
 
-from roles import User
+from roles import User, Role
 
 app = Flask(__name__)
 app.config.update(
@@ -111,11 +111,24 @@ def on_identity_loaded(sender, identity):
         return "logout page"
 
 
+from flask_admin.contrib.sqla import ModelView
+
 if __name__ == '__main__':
     admin = Admin(app, name='Tse')
     admin.add_view(MyView(name='Hello'))
+    admin.add_view(ModelView(User, session_roles))
+    admin.add_view(ModelView(Role, session_roles))
 
     app.register_blueprint(hell)
     app.register_blueprint(api_bp)
     app.register_blueprint(auth, url_prefix='/auth')
     app.run(debug=True)
+
+    # flask_admin.init_app(app)
+    # # Register view function `CustomView` into Flask-Admin
+    # flask_admin.add_view(CustomView(name='Custom'))
+    # # Register view function `CustomModelView` into Flask-Admin
+    # models = [Role, Tag, Reminder, BrowseVolume]
+    # for model in models:
+    #     flask_admin.add_view(
+    #         CustomModelView(model, db.session, category='Models'))
