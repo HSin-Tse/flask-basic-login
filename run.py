@@ -10,7 +10,7 @@ from admin_helper.adminhelper import MyView
 
 from db import session_roles
 
-from flask_login import LoginManager, login_required, UserMixin, login_user, logout_user, current_user
+from flask_login import LoginManager, login_required, UserMixin, login_user, logout_user, current_user, login_manager
 
 from roles import User, Role
 from app import create_app
@@ -20,12 +20,6 @@ app = create_app('config')
 app.config.update(
     DEBUG=True,
     SECRET_KEY='secret_xxx')
-
-login_manager = LoginManager()
-login_manager.session_protection = 'strong'
-login_manager.login_view = 'auth.login'
-login_manager.login_message = u"请登录！"
-login_manager.init_app(app)
 
 auth = Blueprint('auth', __name__)
 
@@ -59,15 +53,6 @@ def hello():
 @app.route("/lll")
 def wwwww():
     return render_template('test.html', tse=current_user.role)
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    user = session_roles.query(User).first()
-
-    # user = User()
-    return user
-    # 以上这段是新增加的============
 
 
 from flask_admin.contrib.sqla import ModelView

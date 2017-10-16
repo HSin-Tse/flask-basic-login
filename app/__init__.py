@@ -14,7 +14,7 @@ from flask import (
 from flask_login import LoginManager
 from flask_principal import identity_loaded
 
-from extensions import principals, action_sign_in, role_editor, role_admin
+from extensions import principals, action_sign_in, role_editor, role_admin, login_manager
 
 
 def create_app(config_filename):
@@ -25,7 +25,7 @@ def create_app(config_filename):
     app.config.update(
         DEBUG=True,
         SECRET_KEY='secret_xxx')
-
+    login_manager.init_app(app)
 
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):

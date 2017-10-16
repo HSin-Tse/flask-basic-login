@@ -100,7 +100,8 @@ def about():
 def logout():
     for key in ['identity.id', 'identity.auth_type']:
         session.pop(key, None)
-    identity_changed.send(current_app._get_current_object(), identity=AnonymousIdentity())
+    identity_changed.send(
+        current_app._get_current_object(), identity=AnonymousIdentity())
     return render_template('logout.html')
 
 
