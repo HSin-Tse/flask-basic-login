@@ -3,9 +3,8 @@ import os
 from flask_admin import Admin
 from flask_admin.contrib.fileadmin import FileAdmin
 
-from admin_helper.adminhelper import MyView
 from app import create_app
-from app.controllers.admin import CustomFileAdmin
+from app.controllers.admin import CustomFileAdmin, MyView
 from db import session_roles
 from roles import User, Role
 
