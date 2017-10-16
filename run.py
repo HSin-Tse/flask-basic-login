@@ -27,11 +27,11 @@ auth = Blueprint('auth', __name__)
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     user = session_roles.query(User).first()
+    login_user(user, True)
     print(" user get_username:", user.get_username(), '-->File "run.py", line 67')
     print(" user:", user.id, '-->File "run.py", line 67')
     # load_user(user)
 
-    login_user(user, True)
     return "login page user.id %r " % user.id
 
 

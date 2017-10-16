@@ -54,7 +54,13 @@ def current_privileges():
 
 @login_manager.user_loader
 def load_user(user_id):
-    user = session_roles.query(User).first()
+    print(" user_id:", user_id, '-->File "extensions.py", line 57')
+    print(" user_id:", user_id, '-->File "extensions.py", line 57')
+    print(" user_id:", user_id, '-->File "extensions.py", line 57')
+    print(" user_id:", user_id, '-->File "extensions.py", line 57')
+    print(" user_id:", user_id, '-->File "extensions.py", line 57')
+
+    user = session_roles.query(User).filter_by(id=user_id).first()
 
     # user = User()
     return user

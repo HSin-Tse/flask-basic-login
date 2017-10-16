@@ -1,4 +1,5 @@
 from flask import Blueprint
+from flask_login import login_user,logout_user
 from flask_principal import (
     AnonymousIdentity,
     Identity,
@@ -62,9 +63,11 @@ def login():
     if request.method == 'POST':
 
         usr = session_roles.query(User).filter(User.username == request.form['email']).first()
+        # user = session_roles.query(User).first()
         if usr is not None:
             print(" usr.username:", usr.username, '-->File "views.py", line 66')
             print(" usr.password:", usr.password, '-->File "views.py", line 66')
+            login_user(usr, True)
 
         user_id = authenticate(request.form['email'],
                                request.form['password'])
@@ -100,8 +103,11 @@ def about():
 def logout():
     for key in ['identity.id', 'identity.auth_type']:
         session.pop(key, None)
+
     identity_changed.send(
         current_app._get_current_object(), identity=AnonymousIdentity())
+    flash(u'你已经注销！')
+    logout_user()
     return render_template('logout.html')
 
 
