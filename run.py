@@ -9,9 +9,9 @@ from roles import User, Role
 
 app = create_app('config')
 
-app.config.update(
-    DEBUG=True,
-    SECRET_KEY='secret_xxx')
+# app.config.update(
+#     DEBUG=True,
+#     SECRET_KEY='secret_xxx')
 
 from flask_admin.contrib.sqla import ModelView
 
@@ -25,4 +25,6 @@ admin.add_view(CustomFileAdmin(path,
                                '/static',
                                name='Static Files'))
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host=app.config['HOST'],
+            port=app.config['PORT'],
+            debug=app.config['DEBUG'])

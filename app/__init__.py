@@ -9,11 +9,10 @@ from extensions import principals, action_sign_in, role_editor, role_admin, logi
 
 def create_app(config_filename):
     app = Flask(__name__)
+    app.config.from_object(config_filename)
+
     principals.init_app(app)
 
-    app.config.update(
-        DEBUG=True,
-        SECRET_KEY='secret_xxx')
     login_manager.init_app(app)
 
     @identity_loaded.connect_via(app)
