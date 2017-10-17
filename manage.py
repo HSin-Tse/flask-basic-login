@@ -8,14 +8,14 @@ from run import app
 manager = Manager(app)
 migrate = Migrate(app, session_roles)
 
-manager.add_command("run", Server(use_debugger=True))
-
-manager = Manager(app)
+manager.add_command("r", Server())
 manager.add_command('db', MigrateCommand)
+
 
 @manager.command
 def he():
-    print ('hello')
+    print('hello')
+
 
 if __name__ == '__main__':
     manager.run()
