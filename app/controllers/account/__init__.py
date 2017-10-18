@@ -48,6 +48,7 @@ def login():
         if usr is not None:
             print(" usr.username:", usr.username, '-->File "views.py", line 66')
             print(" usr.password:", usr.password, '-->File "views.py", line 66')
+
             login_user(usr, True)
 
         user_id = authenticate(request.form['email'],
