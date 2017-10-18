@@ -19,48 +19,9 @@ from flask import (
     current_app,
     url_for)
 
-account = Blueprint('account', __name__,'templates',
+account = Blueprint('account', __name__, 'templates',
                     url_prefix='/account')
 
-#
-# @account.route("/hello")
-# def hello():
-#     return "Hello World!"
-#
-#
-# @account.route("/")
-# def index():
-
-    # return render_template('account/index.html')
-
-# @account.route('/')
-# def index():
-#     return render_template('index.html')
-
-
-#
-# hell = Blueprint('hell', __name__, 'templates', url_prefix='/principal')
-#
-#
-# @hell.route("/hello")
-# @admin_permission.require(http_exception=403)
-# def hello():
-#     return "Hello World!"
-#
-#
-# @hell.route('/test2')
-# def ssss():
-#     return render_template('testnot.html')
-#     # return 'ss'
-#
-#
-# # test
-# @hell.route('/test1')
-# def home():
-#     return render_template('test.html', roles=session_roles.query(Role).all(), users=session_roles.query(User).all(),
-#                            tse=session_roles.query(User).filter_by(username='tse').all()[0].role.name == 'admin')
-#
-#
 
 def authenticate(email, password):
     if password == email + "user":

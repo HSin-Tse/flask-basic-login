@@ -31,10 +31,8 @@ def create_app(config_filename):
         for n in needs:
             identity.provides.add(n)
 
-    from ro.views import hell  # module
     from api.api import api_bp  # module
     from app.controllers.account import account
-    # app.register_blueprint(hell)
     app.register_blueprint(api_bp)
     app.register_blueprint(account)
 
