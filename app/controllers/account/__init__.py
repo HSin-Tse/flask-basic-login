@@ -5,7 +5,7 @@ from flask_principal import (
     Identity,
     identity_changed,
 )
-from db_sessions import session_roles
+from db_sessions import session_roles, session_roles_aj
 from extensions import role_admin, admin_permission, user_permission, editor_permission, current_privileges
 from roles import User, Role
 from flask import (
@@ -43,24 +43,49 @@ def index():
 def login():
     if request.method == 'POST':
 
-        usr = session_roles.query(User).filter(User.username == request.form['email']).first()
+        u_email = request.form['email']
+        u_password = request.form['password']
+        print(" u_email:", u_email, '-->File "__init__.py", line 48')
+        print(" u_password:", u_password, '-->File "__init__.py", line 48')
+        
+        usr = session_roles_aj.query(User).filter(User.username == u_email).first()
+
         # user = session_roles.query(User).first()
         if usr is not None:
-            print(" usr.username:", usr.username, '-->File "views.py", line 66')
-            print(" usr.password:", usr.password, '-->File "views.py", line 66')
+            print(" usr:", usr, '-->File "__init__.py", line 52')
+            print(" usr.role:", usr.role.name, '-->File "__init__.py", line 56')
+            print(" usr.role:", usr.role.name, '-->File "__init__.py", line 56')
+            print(" usr.role:", usr.role, '-->File "__init__.py", line 56')
+            print(" usr.role:", usr.role, '-->File "__init__.py", line 56')
 
-            login_user(usr, True)
+            print(" usr.password == u_password:", usr.password == u_password, '-->File "__init__.py", line 56')
+            print(" usr.password:", usr.password, '-->File "__init__.py", line 57')
+            print(" u_password:", u_password, '-->File "__init__.py", line 58')
+            
+            if usr.password == u_password:
+                login_user(usr, True)
+                # user_id = "the_only_admin"
+                user_id = usr.role.name
+                if user_id:
+                    print(" user_id:", user_id, '-->File "__init__.py", line 55')
 
-        user_id = authenticate(request.form['email'],
-                               request.form['password'])
-        print(" user_id:", user_id, '-->File "run.py", line 82')
+                    identity = Identity(user_id)
+                    identity_changed.send(current_app._get_current_object(), identity=identity)
+                    return redirect(url_for('account.index'))
+                else:
+                    return abort(401)
 
-        if user_id:
-            identity = Identity(user_id)
-            identity_changed.send(current_app._get_current_object(), identity=identity)
-            return redirect(url_for('account.index'))
-        else:
-            return abort(401)
+
+            # login_user(usr, True)
+
+            # user_id = authenticate(request.form['email'],
+            #                        request.form['password'])
+            # print(" user_id:", user_id, '-->File "run.py", line 82')
+            # print(" user_id:", user_id, '-->File "__init__.py", line 65')
+            # print(" user_id:", user_id, '-->File "__init__.py", line 65')
+            # print(" user_id:", user_id, '-->File "__init__.py", line 65')
+            # print(" user_id:", user_id, '-->File "__init__.py", line 65')
+
     return render_template('account/login.html')
 
 

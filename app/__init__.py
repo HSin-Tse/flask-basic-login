@@ -19,14 +19,17 @@ def create_app(config_filename):
     def on_identity_loaded(sender, identity):
 
         needs = []
-        if identity.id in ('the_only_user', 'the_only_editor', 'the_only_admin'):
+        print(" identity.id:", identity.id, '-->File "__init__.py", line 22')
+
+        if identity.id in ('user', 'editor', 'admin'):
             needs.append(action_sign_in)
 
-        if identity.id in ('the_only_editor', 'the_only_admin'):
+        if identity.id in ('editor', 'admin'):
             needs.append(role_editor)
 
-        if identity.id == 'the_only_admin':
+        if identity.id == 'admin':
             needs.append(role_admin)
+        print(" needs:", needs, '-->File "__init__.py", line 33')
 
         for n in needs:
             identity.provides.add(n)
