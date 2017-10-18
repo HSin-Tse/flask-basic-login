@@ -33,7 +33,9 @@ def create_app(config_filename):
 
     from ro.views import hell  # module
     from api.api import api_bp  # module
-    app.register_blueprint(hell)
+    from app.controllers.account import account
+    # app.register_blueprint(hell)
     app.register_blueprint(api_bp)
+    app.register_blueprint(account)
 
     return app

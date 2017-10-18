@@ -39,17 +39,17 @@
         <div class=page>
             <h1>Ajmide</h1>
             <div class=metanav>
-                <a href="{{ url_for('hell.index') }}">Home</a>
-                <a href="{{ url_for('hell.admin') }}">Admin</a>
-                <a href="{{ url_for('hell.editor') }}">Edit</a>
-                <a href="{{ url_for('hell.about') }}">About</a>
+                <a href="{{ url_for('account.index') }}">Home</a>
+                <a href="{{ url_for('account.admin') }}">Admin</a>
+                <a href="{{ url_for('account.editor') }}">Edit</a>
+                <a href="{{ url_for('account.about') }}">About</a>
 
                 </a>
 
                 {% if g.identity.id ==  None %}
-                    <a href="{{ url_for('hell.login') }}">| Log in</a>
+                    <a href="{{ url_for('account.login') }}">| Log in</a>
                 {% else %}
-                    <a href="{{ url_for('hell.logout') }}">| Log out</a>
+                    <a href="{{ url_for('account.logout') }}">| Log out</a>
                 {% endif %}
             </div>
             {% for message in get_flashed_messages() %}

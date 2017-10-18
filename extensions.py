@@ -14,7 +14,7 @@ from roles import User
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
-login_manager.login_view = 'hell.login'
+login_manager.login_view = 'account.login'
 login_manager.login_message = u"请登录！"
 
 principals = Principal()
