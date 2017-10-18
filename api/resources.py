@@ -1,6 +1,6 @@
 from extensions import user_permission
 from models import Todo
-from db import session
+from db_sessions import session
 
 from flask_restful import reqparse,abort,Resource,fields,marshal_with
 

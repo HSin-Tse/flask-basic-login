@@ -5,7 +5,7 @@ from flask_principal import (
     Identity,
     identity_changed,
 )
-from db import session_roles
+from db_sessions import session_roles
 from extensions import role_admin, admin_permission, user_permission, editor_permission, current_privileges
 from roles import User, Role
 from flask import (

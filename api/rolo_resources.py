@@ -1,5 +1,5 @@
 from extensions import user_permission
-from db import session_roles
+from db_sessions import session_roles
 
 from flask_restful import reqparse, abort, Resource, fields, marshal_with
 
@@ -9,6 +9,7 @@ user_fields = {
     'id': fields.Integer,
     'username': fields.String,
     'password': fields.String,
+    'asd': fields.String,
     'uri': fields.Url('api.user', absolute=True),
 }
 

@@ -7,8 +7,9 @@ from flask_principal import (
 from flask import (
     g,
 )
+from flask_sqlalchemy import SQLAlchemy
 
-from db import session_roles
+from db_sessions import session_roles
 from roles import User
 
 login_manager = LoginManager()
@@ -32,6 +33,9 @@ user_permission = Permission(action_sign_in)
 
 apps_permissions = [user_permission, editor_permission, admin_permission]
 apps_needs = [role_admin, role_editor, action_sign_in]
+
+
+db = SQLAlchemy()
 
 
 def current_privileges():

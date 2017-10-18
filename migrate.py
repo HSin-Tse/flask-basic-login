@@ -1,7 +1,7 @@
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Server
 
-from db import session_roles
+from db_sessions import session_roles
 from run import app
 
 migrate = Migrate(app, session_roles)
