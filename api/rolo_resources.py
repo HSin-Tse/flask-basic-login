@@ -47,7 +47,7 @@ class UserResource(Resource):
 
 class UserListResource(Resource):
     @marshal_with(user_fields)
-    @admin_permission.require(http_exception=403)
+    # @admin_permission.require(http_exception=403)
 
     def get(self):
         todos = session_roles_aj.query(User).all()
