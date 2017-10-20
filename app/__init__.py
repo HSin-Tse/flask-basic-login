@@ -2,7 +2,6 @@ from flask import (
     Flask,
 )
 from flask_cors import CORS
-
 from flask_principal import identity_loaded
 
 from extensions import principals, action_sign_in, role_editor, role_admin, login_manager, db
@@ -37,8 +36,9 @@ def create_app(config_filename):
         for n in needs:
             identity.provides.add(n)
 
-    from api.api import api_bp  # module
     from app.controllers.account import account
+    from app.api import api_bp
+
     app.register_blueprint(api_bp)
     app.register_blueprint(account)
 
