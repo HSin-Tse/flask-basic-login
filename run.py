@@ -1,23 +1,19 @@
 import os
 
+import time
 from flask_admin import Admin
 
 from app import create_app
 from app.controllers.admin import CustomFileAdmin, MyView
-from db_sessions import session_roles, session_roles_aj
+from db_sessions import session_roles_aj
 
-# from roles import User, Role
+from flask_admin.contrib.sqla import ModelView
+from app.admodels import Role, User
 
 app = create_app('config')
 
-from flask_admin.contrib.sqla import ModelView
-
 admin = Admin(app, name='Tse')
 admin.add_view(MyView(name='Hello'))
-# admin.add_view(ModelView(User, session_roles))
-# admin.add_view(ModelView(Role, session_roles))
-
-from app.admodels import Role, User
 
 admin.add_view(ModelView(Role, session_roles_aj))
 admin.add_view(ModelView(User, session_roles_aj))
@@ -27,6 +23,35 @@ path = os.path.join(basedir, 'app', 'static')
 admin.add_view(CustomFileAdmin(path,
                                '/static',
                                name='Static Files'))
+
+from flask_mail import Mail, Message
+
+
+app.config.update(
+    MAIL_SERVER='smtp.partner.outlook.cn',
+    MAIL_PORT=587,
+    # MAIL_USE_TTLS=True,
+    MAIL_USE_TLS=True,
+    MAIL_DEFAULT_SENDER=os.environ.get('MAIL_USERNAME'),
+    MAIL_USERNAME=os.environ.get('MAIL_USERNAME'),
+    MAIL_PASSWORD=os.environ.get('MAIL_PASSWORD')
+)
+mail = Mail()
+
+mail.init_app(app)
+
+
+@app.route('/')
+def send_mail():
+    msg = Message(subject="Hello",
+                  recipients=['2481640274@qq.com']
+                  )
+
+    msg.html = '<h1>Hello World</h1>'
+    mail.send(msg)
+    return 'Successful'
+
+
 if __name__ == '__main__':
     app.run(host=app.config['HOST'],
             port=app.config['PORT'],

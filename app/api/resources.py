@@ -2,16 +2,7 @@ from extensions import user_permission
 from models import Todo
 from db_sessions import session
 
-from flask_restful import reqparse,abort,Resource,fields,marshal_with
-
-
-
-# class ㄊTodo(Base):
-#     __tablename__ = 'todos'
-#
-#     id = Column(Integer, primary_key=True)
-#     task = Column(String(255))
-
+from flask_restful import reqparse, abort, Resource, fields, marshal_with
 
 todo_fields = {
     'id': fields.Integer,
@@ -21,6 +12,7 @@ todo_fields = {
 
 parser = reqparse.RequestParser()
 parser.add_argument('task', type=str)
+
 
 class TodoResource(Resource):
     # @user_permission.require(http_exception=403)
