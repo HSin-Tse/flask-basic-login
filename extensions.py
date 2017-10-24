@@ -1,4 +1,5 @@
 from flask_login import LoginManager
+from flask_mail import Mail
 from flask_principal import (
     ActionNeed,
     Permission,
@@ -36,6 +37,7 @@ apps_needs = [role_admin, role_editor, action_sign_in]
 
 
 db = SQLAlchemy()
+mail = Mail()
 
 
 def current_privileges():
