@@ -2,7 +2,15 @@
 import os
 
 
-
+#
+# app.config.update(
+#     MAIL_SERVER='smtp.partner.outlook.cn',
+#     MAIL_PORT=587,
+#     MAIL_USE_TLS=True,
+#     MAIL_DEFAULT_SENDER=os.environ.get('MAIL_USERNAME'),
+#     MAIL_USERNAME=os.environ.get('MAIL_USERNAME'),
+#     MAIL_PASSWORD=os.environ.get('MAIL_PASSWORD')
+# )
 
 class BaseConfig(object):
     """Base configuration."""
@@ -14,8 +22,15 @@ class BaseConfig(object):
     PORT = 5000
     HOST = "127.0.0.1"
     SECRET_KEY = "SOME SECRET"
+
+    MAIL_SERVER = '''smtp.partner.outlook.cn''',
+    MAIL_PORT = 587,
+    MAIL_USE_TLS = True,
+    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_USERNAME'),
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME'),
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     # SECRET_KEY = 'my_precious'
-    # DEBUG = False
+    # DEBUG = Falseａ
     # BCRYPT_LOG_ROUNDS = 13
     # WTF_CSRF_ENABLED = True
     # DEBUG_TB_ENABLED = False

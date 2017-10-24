@@ -1,15 +1,19 @@
+import os
+
 from flask import (
     Flask,
 )
 from flask_cors import CORS
 from flask_principal import identity_loaded
 
-from extensions import principals, action_sign_in, role_editor, role_admin, login_manager, db
+from extensions import principals, action_sign_in, role_editor, role_admin, login_manager, db, mail
 
 
 def create_app(config_filename):
 
     app = Flask(__name__)
+    mail.init_app(app)
+
     CORS(app)
     app.config.from_object(config_filename)
 
@@ -40,5 +44,12 @@ def create_app(config_filename):
     from app.api import api_bp
     app.register_blueprint(api_bp)
     app.register_blueprint(account)
-
+    app.config.update(
+        MAIL_SERVER='smtp.partner.outlook.cn',
+        MAIL_PORT=587,
+        MAIL_USE_TLS=True,
+        MAIL_DEFAULT_SENDER=os.environ.get('MAIL_USERNAME'),
+        MAIL_USERNAME=os.environ.get('MAIL_USERNAME'),
+        MAIL_PASSWORD=os.environ.get('MAIL_PASSWORD')
+    )
     return app

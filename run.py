@@ -8,8 +8,10 @@ from db_sessions import session_roles_aj
 
 from flask_admin.contrib.sqla import ModelView
 from app.admodels import Role, User
-from extensions import mail
+# from extensions import mail
 from flask_mail import Message
+
+from extensions import mail
 
 app = create_app('config.BaseConfig')
 # app = create_app('config.DevelopmentConfig')
@@ -26,28 +28,21 @@ admin.add_view(CustomFileAdmin(path,
                                '/static',
                                name='Static Files'))
 
-app.config.update(
-    MAIL_SERVER='smtp.partner.outlook.cn',
-    MAIL_PORT=587,
-    MAIL_USE_TLS=True,
-    MAIL_DEFAULT_SENDER=os.environ.get('MAIL_USERNAME'),
-    MAIL_USERNAME=os.environ.get('MAIL_USERNAME'),
-    MAIL_PASSWORD=os.environ.get('MAIL_PASSWORD')
-)
-
-mail.init_app(app)
-
 
 @app.route('/testmail')
 def send_mail():
+    mail.init_app(app)
 
     msg = Message(subject="Hello",
+                  # sender=app.config['MAIL_DEFAULT_SENDER'],
+                  # sender=['2481640274@qq.com'],
                   recipients=['2481640274@qq.com'],
                   )
 
     msg.html = '<h1>Hello World</h1>'
     mail.send(msg)
     return 'Successful'
+
 
 @app.route('/')
 def aa():
