@@ -11,8 +11,9 @@ from flask import (
 )
 from flask_sqlalchemy import SQLAlchemy
 
-from db_sessions import session_roles
-from roles import User
+from db_sessions import session_roles, session_roles_aj
+
+# from roles import User
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
@@ -50,6 +51,22 @@ def current_privileges():
 
 @login_manager.user_loader
 def load_user(user_id):
-    user = session_roles.query(User).filter_by(id=user_id).first()
+    print(" user_id:", user_id, '-->File "extensions.py", line 53')
+    print(" user_id:", user_id, '-->File "extensions.py", line 53')
+    print(" user_id:", user_id, '-->File "extensions.py", line 53')
+    print(" user_id:", user_id, '-->File "extensions.py", line 53')
+    print(" user_id:", user_id, '-->File "extensions.py", line 53')
+    print(" user_id:", user_id, '-->File "extensions.py", line 53')
+    print(" user_id:", user_id, '-->File "extensions.py", line 53')
+    print(" user_id:", user_id, '-->File "extensions.py", line 53')
+    print(" user_id:", user_id, '-->File "extensions.py", line 53')
+    print(" user_id:", user_id, '-->File "extensions.py", line 53')
+    print(" user_id:", user_id, '-->File "extensions.py", line 53')
+
+    from app.admodels import User
+    user = session_roles_aj.query(User).filter_by(id=user_id).first()
+    # usr = session_roles_aj.query(User).filter(User.username == u_name).first()
+
+    # user =User.get_id(user_id)
 
     return user
