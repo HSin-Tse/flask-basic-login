@@ -5,9 +5,11 @@ from flask_principal import (
     Identity,
     identity_changed,
 )
+
+from app.admodels import User
 from db_sessions import session_roles, session_roles_aj
 from extensions import role_admin, admin_permission, user_permission, editor_permission, current_privileges
-from roles import User, Role
+# from roles import User, Role
 from flask import (
     abort,
     flash,
@@ -52,17 +54,20 @@ def login():
 
         # user = session_roles.query(User).first()
         if usr is not None:
-            print(" usr:", usr, '-->File "__init__.py", line 52')
-            print(" usr.role:", usr.role.name, '-->File "__init__.py", line 56')
-            print(" usr.role:", usr.role.name, '-->File "__init__.py", line 56')
-            print(" usr.role:", usr.role, '-->File "__init__.py", line 56')
-            print(" usr.role:", usr.role, '-->File "__init__.py", line 56')
-
-            print(" usr.password == u_password:", usr.password == u_password, '-->File "__init__.py", line 56')
-            print(" usr.password:", usr.password, '-->File "__init__.py", line 57')
-            print(" u_password:", u_password, '-->File "__init__.py", line 58')
+            # print(" usr:", usr, '-->File "__init__.py", line 52')
+            # print(" usr.role:", usr.role.name, '-->File "__init__.py", line 56')
+            # print(" usr.role:", usr.role.name, '-->File "__init__.py", line 56')
+            # print(" usr.role:", usr.role, '-->File "__init__.py", line 56')
+            # print(" usr.role:", usr.role, '-->File "__init__.py", line 56')
+            #
+            # print(" usr.password == u_password:", usr.password == u_password, '-->File "__init__.py", line 56')
+            # print(" usr.password:", usr.password, '-->File "__init__.py", line 57')
+            # print(" u_password:", u_password, '-->File "__init__.py", line 58')
+            print(" u_password:", u_password, '-->File "__init__.py", line 66')
+            print(" usr.check_password(u_password):", usr.check_password(u_password), '-->File "__init__.py", line 67')
             
-            if usr.password == u_password:
+            if usr.check_password(u_password):
+            # if usr.password == u_password:
                 login_user(usr, True)
                 # user_id = "the_only_admin"
                 user_id = usr.role.name

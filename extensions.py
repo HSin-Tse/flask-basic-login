@@ -1,3 +1,4 @@
+from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_principal import (
@@ -38,6 +39,7 @@ apps_needs = [role_admin, role_editor, action_sign_in]
 
 db = SQLAlchemy()
 mail = Mail()
+bcrypt = Bcrypt()
 
 
 def current_privileges():

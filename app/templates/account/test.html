@@ -1,12 +1,252 @@
-{% extends "account/layout.html" %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>User - Tse</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link href="/admin/static/bootstrap/bootstrap2/swatch/default/bootstrap.min.css?v=2.3.2" rel="stylesheet">
+        <link href="/admin/static/bootstrap/bootstrap2/css/bootstrap-responsive.css?v=2.3.2" rel="stylesheet">
+        <link href="/admin/static/admin/css/bootstrap2/admin.css?v=1.1.1" rel="stylesheet">
+        <style>
+        body {
+            padding-top: 4px;
+        }
+        </style>
+        <link href="/admin/static/vendor/select2/select2.css?v=3.5.2" rel="stylesheet">
+        <link href="/admin/static/vendor/bootstrap-daterangepicker/daterangepicker-bs2.css?v=1.3.22" rel="stylesheet">
+  
+  
 
 
-{% block body %}
-  <h2>roles us  {{ roles }}</h2>
-<h2>users us  {{ users }}</h2>
-<h2>tse us  {{ tse }}</h2>
-  {% if error %}
-    <p class=error><strong>Error:</strong> {{ error }}
-  {% endif %}
-  Bye.
-{% endblock %}
+    
+    
+  
+    </head>
+    <body>
+        <div class="container">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <a class="brand" href="/admin">Tse</a>
+                    <ul class="nav">
+                        <li>
+                            <a href="/admin/">Home</a>
+                        </li>
+                        <li>
+                            <a href="/admin/role/">Role</a>
+                        </li>
+                        <li class="active">
+                            <a href="/admin/user/">User</a>
+                        </li>
+                    </ul>
+                    <ul class="nav pull-right">
+            
+  
+  
+
+          </ul>
+                </div>
+            </div>
+            <div class="alert alert-success">
+                <a href="javascript:void(0)" class="close" data-dismiss="alert">x</a>
+          Record was successfully saved.
+            </div>
+            <ul class="nav nav-tabs actions-nav">
+                <li class="active">
+                    <a href="javascript:void(0)">List (3)</a>
+                </li>
+                <li>
+                    <a href="/admin/user/new/?url=%2Fadmin%2Fuser%2F" title="Create New Record">Create</a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">With selected
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="javascript:void(0)" onclick="return modelActions.execute('delete');">Delete</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div id="no-more-tables">
+                <table class="table table-striped table-bordered table-hover model-list cf">
+                    <thead class="cf">
+                        <tr>
+                            <th class="list-checkbox-column">
+                                <input type="checkbox" name="rowtoggle" class="action-rowtoggle" title="Select all records" />
+                            </th>
+                            <th class="span1">&nbsp;</th>
+                            <th class="column-header col-username">
+                                <a href="/admin/user/?sort=0" title="Sort by Username">Username</a>
+                            </th>
+                            <th class="column-header col-password">
+                                <a href="/admin/user/?sort=1" title="Sort by Password">Password</a>
+                            </th>
+                            <th class="column-header col-mail">
+                                <a href="/admin/user/?sort=2" title="Sort by Mail">Mail</a>
+                            </th>
+                            <th class="column-header col-confirmed">
+                                <a href="/admin/user/?sort=3" title="Sort by Confirmed">Confirmed</a>
+                            </th>
+                            <th class="column-header col-role">
+                        
+                            Role
+                        
+                        
+                    </th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="rowid" class="action-checkbox" value="1" title="Select record" />
+                        </td>
+                        <td class="list-buttons-column">
+                            <a class="icon" href="/admin/user/edit/?id=1&amp;url=%2Fadmin%2Fuser%2F" title="Edit Record">
+                                <span class="fa fa-pencil glyphicon icon-pencil"></span>
+                            </a>
+                            <form class="icon" method="POST" action="/admin/user/delete/">
+                                <input id="id" name="id" type="hidden" value="1">
+                                <input id="url" name="url" type="hidden" value="/admin/user/">
+                                <button onclick="return confirm('Are you sure you want to delete this record?');" title="Delete record">
+                                    <span class="fa fa-trash glyphicon icon-trash"></span>
+                                </button>
+                            </form>
+                        </td>
+                        <td class="col-username" data-title="Username">
+                    
+                    wwwwwqweww
+                    
+                    </td>
+                        <td class="col-password" data-title="Password">
+                    
+                    b&#39;$2b$12$e1/4ipTPkoT9drE4swbnH.s.g0BvhOM2o4v8rzKMrv90TPt61Clae&#39;
+                    
+                    </td>
+                        <td class="col-mail" data-title="Mail">
+                    
+                    sssssww
+                    
+                    </td>
+                        <td class="col-confirmed" data-title="Confirmed">
+                            <span class="fa fa-minus-circle glyphicon glyphicon-minus-sign icon-minus-sign"></span>
+                        </td>
+                        <td class="col-role" data-title="Role">
+                    
+                    
+                    
+                    </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="rowid" class="action-checkbox" value="2" title="Select record" />
+                        </td>
+                        <td class="list-buttons-column">
+                            <a class="icon" href="/admin/user/edit/?id=2&amp;url=%2Fadmin%2Fuser%2F" title="Edit Record">
+                                <span class="fa fa-pencil glyphicon icon-pencil"></span>
+                            </a>
+                            <form class="icon" method="POST" action="/admin/user/delete/">
+                                <input id="id" name="id" type="hidden" value="2">
+                                <input id="url" name="url" type="hidden" value="/admin/user/">
+                                <button onclick="return confirm('Are you sure you want to delete this record?');" title="Delete record">
+                                    <span class="fa fa-trash glyphicon icon-trash"></span>
+                                </button>
+                            </form>
+                        </td>
+                        <td class="col-username" data-title="Username">
+                    
+                    wwwwwqwewwww
+                    
+                    </td>
+                        <td class="col-password" data-title="Password">
+                    
+                    b&#39;$2b$12$S8QoYHzdnOOn7hLBvLcrIeMiqeFr3YPxsmoKnPSEzo0c0DMe8OOwq&#39;
+                    
+                    </td>
+                        <td class="col-mail" data-title="Mail">
+                    
+                    ssssswwww
+                    
+                    </td>
+                        <td class="col-confirmed" data-title="Confirmed">
+                            <span class="fa fa-minus-circle glyphicon glyphicon-minus-sign icon-minus-sign"></span>
+                        </td>
+                        <td class="col-role" data-title="Role">
+                    
+                    &lt;Role &#39;qqq&#39;&gt;
+                    
+                    </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="rowid" class="action-checkbox" value="3" title="Select record" />
+                        </td>
+                        <td class="list-buttons-column">
+                            <a class="icon" href="/admin/user/edit/?id=3&amp;url=%2Fadmin%2Fuser%2F" title="Edit Record">
+                                <span class="fa fa-pencil glyphicon icon-pencil"></span>
+                            </a>
+                            <form class="icon" method="POST" action="/admin/user/delete/">
+                                <input id="id" name="id" type="hidden" value="3">
+                                <input id="url" name="url" type="hidden" value="/admin/user/">
+                                <button onclick="return confirm('Are you sure you want to delete this record?');" title="Delete record">
+                                    <span class="fa fa-trash glyphicon icon-trash"></span>
+                                </button>
+                            </form>
+                        </td>
+                        <td class="col-username" data-title="Username">
+                    
+                    hci123321
+                    
+                    </td>
+                        <td class="col-password" data-title="Password">
+                    
+                    b&#39;$2b$12$Gbop6VK5JxtmKUsljjaA7Ol1c8tPbP/yACNwBN1zdClpb1DEZNHH2&#39;
+                    
+                    </td>
+                        <td class="col-mail" data-title="Mail">
+                    
+                    s
+                    
+                    </td>
+                        <td class="col-confirmed" data-title="Confirmed">
+                            <span class="fa fa-check-circle glyphicon glyphicon-ok-circle icon-ok-circle"></span>
+                        </td>
+                        <td class="col-role" data-title="Role">
+                    
+                    &lt;Role &#39;qqq&#39;&gt;
+                    
+                    </td>
+                    </tr>
+                </table>
+            </div>
+            <form id="action_form" action="/admin/user/action/" method="POST" style="display: none">
+                <input id="url" name="url" type="hidden" value="/admin/user/">
+                <input id="action" name="action" type="hidden" value="">
+    
+            </form>
+        </div>
+        <script src="/admin/static/vendor/jquery.min.js?v=2.1.4" type="text/javascript"></script>
+        <script src="/admin/static/bootstrap/bootstrap2/js/bootstrap.min.js?v=2.3.2" type="text/javascript"></script>
+        <script src="/admin/static/vendor/moment.min.js?v=2.9.0" type="text/javascript"></script>
+        <script src="/admin/static/vendor/select2/select2.min.js?v=3.5.2" type="text/javascript"></script>
+        <script src="/admin/static/vendor/bootstrap-daterangepicker/daterangepicker.js?v=1.3.22"></script>
+        <script src="/admin/static/admin/js/form.js?v=1.0.1"></script>
+        <script src="/admin/static/admin/js/filters.js?v=1.0.0"></script>
+        <script src="/admin/static/admin/js/actions.js?v=1.0.0"></script>
+        <script language="javascript">
+        var modelActions = new AdminModelActions("Please select at least one record.", {"delete": "Are you sure you want to delete selected records?"});
+    </script>
+        <script language="javascript">
+        (function($) {
+            $('[data-role=tooltip]').tooltip({
+                html: true,
+                placement: 'bottom'
+            });
+            
+        })(jQuery);
+    </script>
+    </body>
+</html>

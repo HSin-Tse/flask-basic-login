@@ -3,7 +3,7 @@ import os
 from flask_admin import Admin
 
 from app import create_app
-from app.controllers.admin import CustomFileAdmin, MyView
+from app.controllers.admin import CustomFileAdmin, MyView, UserView, CustomModelView
 from db_sessions import session_roles_aj
 
 from flask_admin.contrib.sqla import ModelView
@@ -17,10 +17,12 @@ app = create_app('config.BaseConfig')
 # app = create_app('config.DevelopmentConfig')
 
 admin = Admin(app, name='Tse')
-admin.add_view(MyView(name='Hello'))
+# admin.add_view(MyView(name='Hello'))
 
 admin.add_view(ModelView(Role, session_roles_aj))
-admin.add_view(ModelView(User, session_roles_aj))
+# admin.add_view(ModelView(User, session_roles_aj))
+admin.add_view(UserView(User, session_roles_aj))
+# admin.add_view(UserView(User, session_roles_aj))
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 path = os.path.join(basedir, 'app', 'static')
