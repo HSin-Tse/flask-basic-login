@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(64), unique=True, index=True)
     password = db.Column(db.String(16))
     mail = db.Column(db.String(64), unique=True, index=True)
-
+    confirmed = db.Column(db.Boolean, nullable=False, default=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
     def is_authenticated(self):

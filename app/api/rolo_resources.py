@@ -38,11 +38,11 @@ class UserResource(Resource):
     @marshal_with(user_fields)
     def put(self, id):
         parsed_args = parser.parse_args()
-        todo = session_roles_aj.query(User).filter(User.id == id).first()
-        todo.task = parsed_args['task']
-        session_roles_aj.add(todo)
+        user = session_roles_aj.query(User).filter(User.id == id).first()
+        user.task = parsed_args['task']
+        session_roles_aj.add(user)
         session_roles_aj.commit()
-        return todo, 201
+        return user, 201
 
 
 class UserListResource(Resource):
