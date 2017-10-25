@@ -30,12 +30,12 @@ account = Blueprint('account', __name__, 'templates',
 def login():
     if request.method == 'POST':
 
-        u_email = request.form['email']
+        u_name = request.form['name']
         u_password = request.form['password']
-        print(" u_email:", u_email, '-->File "__init__.py", line 48')
+        print(" u_email:", u_name, '-->File "__init__.py", line 48')
         print(" u_password:", u_password, '-->File "__init__.py", line 48')
 
-        usr = session_roles_aj.query(User).filter(User.username == u_email).first()
+        usr = session_roles_aj.query(User).filter(User.username == u_name).first()
 
         # user = session_roles.query(User).first()
         if usr is not None:
