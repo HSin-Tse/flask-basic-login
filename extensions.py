@@ -28,14 +28,15 @@ role_editor = RoleNeed('editor')
 action_sign_in = ActionNeed('sign in')
 
 # Permissions
+super_permission = Permission(role_editor, role_admin, action_sign_in)
+
 editor_permission = Permission(role_editor)
 admin_permission = Permission(role_admin)
 
 user_permission = Permission(action_sign_in)
 
-apps_permissions = [user_permission, editor_permission, admin_permission]
+# apps_permissions = [user_permission, editor_permission, admin_permission]
 apps_needs = [role_admin, role_editor, action_sign_in]
-
 
 db = SQLAlchemy()
 mail = Mail()

@@ -8,7 +8,8 @@ from flask_principal import (
 
 from app.admodels import User
 from db_sessions import session_roles, session_roles_aj
-from extensions import role_admin, admin_permission, user_permission, editor_permission, current_privileges
+from extensions import role_admin, admin_permission, user_permission, editor_permission, current_privileges, \
+    super_permission
 # from roles import User, Role
 from flask import (
     abort,
@@ -25,22 +26,6 @@ account = Blueprint('account', __name__, 'templates',
                     url_prefix='/account')
 
 
-def authenticate(email, password):
-    if password == email + "user":
-        return "the_only_user"
-    elif password == email + "admin":
-        return "the_only_admin"
-    elif password == email + "editor":
-        return "the_only_editor"
-    else:
-        return None
-
-
-@account.route('/')
-def index():
-    return render_template('account/index.html')
-
-
 @account.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -49,27 +34,17 @@ def login():
         u_password = request.form['password']
         print(" u_email:", u_email, '-->File "__init__.py", line 48')
         print(" u_password:", u_password, '-->File "__init__.py", line 48')
-        
+
         usr = session_roles_aj.query(User).filter(User.username == u_email).first()
 
         # user = session_roles.query(User).first()
         if usr is not None:
-            # print(" usr:", usr, '-->File "__init__.py", line 52')
-            # print(" usr.role:", usr.role.name, '-->File "__init__.py", line 56')
-            # print(" usr.role:", usr.role.name, '-->File "__init__.py", line 56')
-            # print(" usr.role:", usr.role, '-->File "__init__.py", line 56')
-            # print(" usr.role:", usr.role, '-->File "__init__.py", line 56')
-            #
-            # print(" usr.password == u_password:", usr.password == u_password, '-->File "__init__.py", line 56')
-            # print(" usr.password:", usr.password, '-->File "__init__.py", line 57')
-            # print(" u_password:", u_password, '-->File "__init__.py", line 58')
+
             print(" u_password:", u_password, '-->File "__init__.py", line 66')
             print(" usr.check_password(u_password):", usr.check_password(u_password), '-->File "__init__.py", line 67')
-            
+
             if usr.check_password(u_password):
-            # if usr.password == u_password:
                 login_user(usr, True)
-                # user_id = "the_only_admin"
                 user_id = usr.role.name
                 if user_id:
                     print(" user_id:", user_id, '-->File "__init__.py", line 55')
@@ -80,17 +55,6 @@ def login():
                 else:
                     return abort(401)
 
-
-            # login_user(usr, True)
-
-            # user_id = authenticate(request.form['email'],
-            #                        request.form['password'])
-            # print(" user_id:", user_id, '-->File "run.py", line 82')
-            # print(" user_id:", user_id, '-->File "__init__.py", line 65')
-            # print(" user_id:", user_id, '-->File "__init__.py", line 65')
-            # print(" user_id:", user_id, '-->File "__init__.py", line 65')
-            # print(" user_id:", user_id, '-->File "__init__.py", line 65')
-
     return render_template('account/login.html')
 
 
@@ -98,6 +62,11 @@ def login():
 @admin_permission.require(http_exception=403)
 def admin():
     return render_template('account/admin.html')
+
+
+@account.route('/')
+def index():
+    return render_template('account/index.html')
 
 
 @account.route('/edit')
@@ -114,8 +83,11 @@ def about():
 
 @account.route("/logout")
 def logout():
+    print(" session:", session, '-->File "__init__.py", line 109')
+
     for key in ['identity.id', 'identity.auth_type']:
         session.pop(key, None)
+    # session.pop(key, None)
 
     identity_changed.send(
         current_app._get_current_object(), identity=AnonymousIdentity())

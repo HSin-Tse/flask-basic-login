@@ -10,7 +10,6 @@ from extensions import principals, action_sign_in, role_editor, role_admin, logi
 
 
 def create_app(config_filename):
-
     app = Flask(__name__)
     mail.init_app(app)
 
@@ -24,9 +23,9 @@ def create_app(config_filename):
 
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
+        print(" identity:", identity, '-->File "__init__.py", line 27')
 
         needs = []
-        # print(" identity.id:", identity.id, '-->File "__init__.py", line 22')
 
         if identity.id in ('user', 'editor', 'admin'):
             needs.append(action_sign_in)

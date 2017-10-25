@@ -11,13 +11,13 @@ from app.admodels import Role, User
 # from extensions import mail
 from flask_mail import Message
 
-from extensions import mail
+from extensions import mail, admin_permission, super_permission
 
 app = create_app('config.BaseConfig')
 # app = create_app('config.DevelopmentConfig')
 
 admin = Admin(app, name='Tse')
-# admin.add_view(MyView(name='Hello'))
+admin.add_view(MyView(name='Hello'))
 
 admin.add_view(ModelView(Role, session_roles_aj))
 # admin.add_view(ModelView(User, session_roles_aj))
@@ -29,7 +29,6 @@ path = os.path.join(basedir, 'app', 'static')
 admin.add_view(CustomFileAdmin(path,
                                '/static',
                                name='Static Files'))
-
 
 @app.route('/testmail')
 def send_mail():
@@ -44,6 +43,12 @@ def send_mail():
     msg.html = '<h1>Hello World</h1>'
     mail.send(msg)
     return 'Successful'
+
+
+@app.route('/tse')
+@super_permission.require(http_exception=403)
+def tse():
+    return 'tse'
 
 
 @app.route('/')

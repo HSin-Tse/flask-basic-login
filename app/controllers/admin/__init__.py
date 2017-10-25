@@ -1,3 +1,4 @@
+from flask import url_for
 from flask_admin.contrib.fileadmin import FileAdmin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import Admin, BaseView, expose, AdminIndexView
@@ -46,21 +47,25 @@ class UserView(ModelView):
 
     # set the form fields to use
     form_columns = (
-        # 'id',
+        'id',
         'username',
         'password',
         'mail',
         'confirmed',
         'role',
     )
+    list_columns = (
+        'id',
+        'username',
+        # 'password',
+        'mail',
+        'confirmed',
+        'role',
+    )
 
     def on_model_change(self, form, user, is_created):
-        print(" form.password:", form.password, '-->File "__init__.py", line 58')
-        print(" user.password:", user.password, '-->File "__init__.py", line 58')
 
         if form.password.data is not None:
-            # if not user.check_password(form.password.data):
-            # user.check_password(form.password.data)
             user.password = user.set_password(form.password.data)
 
 
@@ -76,3 +81,10 @@ class MyView(BaseView):
     @expose('/')
     def index(self):
         return "aaaa"
+
+    # def index(self):
+    #     return url_for('account.index')
+
+    @expose('/second_page')
+    def second_page(self):
+        return "s"
