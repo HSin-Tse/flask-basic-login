@@ -1,5 +1,15 @@
 import os
-
+from flask import (
+    abort,
+    flash,
+    g,
+    redirect,
+    render_template,
+    request,
+    session,
+    current_app,
+    url_for)
+from flask import flash
 from flask_admin import Admin
 
 from app import create_app
@@ -30,6 +40,7 @@ admin.add_view(CustomFileAdmin(path,
                                '/static',
                                name='Static Files'))
 
+
 @app.route('/testmail')
 def send_mail():
     mail.init_app(app)
@@ -48,12 +59,33 @@ def send_mail():
 @app.route('/tse')
 @super_permission.require(http_exception=403)
 def tse():
-    return 'tse'
+    return 'home'
+    # return render_template('account/about.html')
+
+
+@app.route('/who')
+def who():
+    print(" g.identity:", g.identity, '-->File "run.py", line 66')
+    print(" g.identity:", g.identity, '-->File "run.py", line 66')
+    print(" g.identity:", g.identity, '-->File "run.py", line 66')
+    print(" g.identity:", g.identity, '-->File "run.py", line 66')
+    return (('Your current identity is: {id}.    | who You Are: {who}').format(id=g.identity.id, who=g.identity.provides))
 
 
 @app.route('/')
 def aa():
     return 'home'
+
+
+@app.errorhandler(401)
+def authentication_failed(e):
+    flash('Authenticated failed.')
+    return redirect(url_for('account.login'))
+
+
+@app.errorhandler(403)
+def authorisation_failed(e):
+    return (    ('Your current identity is: {id}.    | who You Are: {who}').format(id=g.identity.id, who=g.identity.provides))
 
 
 if __name__ == '__main__':

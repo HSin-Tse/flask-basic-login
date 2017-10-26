@@ -11,7 +11,7 @@ from flask import (
 )
 from flask_sqlalchemy import SQLAlchemy
 
-from db_sessions import  session_roles_aj
+from db_sessions import session_roles_aj
 
 # from roles import User
 
@@ -25,11 +25,12 @@ principals = Principal()
 # Needs
 role_admin = RoleNeed('admin')
 role_editor = RoleNeed('editor')
+role_super_admin = RoleNeed('superadmin')
 
 action_sign_in = ActionNeed('sign in')
 
 # Permissions
-super_permission = Permission(role_editor, role_admin, action_sign_in)
+super_permission = Permission(role_super_admin,action_sign_in,role_admin)
 
 editor_permission = Permission(role_editor)
 admin_permission = Permission(role_admin)
@@ -51,18 +52,6 @@ def current_privileges():
 
 @login_manager.user_loader
 def load_user(user_id):
-    print(" user_id:", user_id, '-->File "extensions.py", line 53')
-    print(" user_id:", user_id, '-->File "extensions.py", line 53')
-    print(" user_id:", user_id, '-->File "extensions.py", line 53')
-    print(" user_id:", user_id, '-->File "extensions.py", line 53')
-    print(" user_id:", user_id, '-->File "extensions.py", line 53')
-    print(" user_id:", user_id, '-->File "extensions.py", line 53')
-    print(" user_id:", user_id, '-->File "extensions.py", line 53')
-    print(" user_id:", user_id, '-->File "extensions.py", line 53')
-    print(" user_id:", user_id, '-->File "extensions.py", line 53')
-    print(" user_id:", user_id, '-->File "extensions.py", line 53')
-    print(" user_id:", user_id, '-->File "extensions.py", line 53')
-
     from app.admodels import User
     user = session_roles_aj.query(User).filter_by(id=user_id).first()
     # usr = session_roles_aj.query(User).filter(User.username == u_name).first()

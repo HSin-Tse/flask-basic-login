@@ -4,6 +4,7 @@ from flask import (
     Flask,
 )
 from flask_cors import CORS
+from flask_login import current_user
 from flask_principal import identity_loaded
 
 from extensions import principals, action_sign_in, role_editor, role_admin, login_manager, db, mail, bcrypt
@@ -23,22 +24,28 @@ def create_app(config_filename):
 
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):
-        print(" identity:", identity, '-->File "__init__.py", line 27')
 
-        needs = []
+        identity.user = current_user
+        if current_user.is_authenticated:
+            print(" current_user:", current_user, '-->File "__init__.py", line 31')
+            print(" identity:", identity, '-->File "__init__.py", line 31')
+            print(" current_user.role:", current_user.role, '-->File "__init__.py", line 32')
+            print(" current_user.role.name:", current_user.role.name, '-->File "__init__.py", line 32')
 
-        if identity.id in ('user', 'editor', 'admin'):
-            needs.append(action_sign_in)
+            needs = []
 
-        if identity.id in ('editor', 'admin'):
-            needs.append(role_editor)
+            if current_user.role.name in ('user', 'editor', 'admin'):
+                needs.append(action_sign_in)
 
-        if identity.id == 'admin':
-            needs.append(role_admin)
-        # print(" needs:", needs, '-->File "__init__.py", line 33')
+            if current_user.role.name in ('editor', 'admin'):
+                needs.append(role_editor)
 
-        for n in needs:
-            identity.provides.add(n)
+            if current_user.role.name == 'admin':
+                needs.append(role_admin)
+            # print(" needs:", needs, '-->File "__init__.py", line 33')
+
+            for n in needs:
+                 identity.provides.add(n)
 
     from app.controllers.account import account
     from app.api import api_bp

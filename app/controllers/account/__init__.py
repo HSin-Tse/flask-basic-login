@@ -44,7 +44,7 @@ def login():
 
             if usr.check_password(u_password):
                 login_user(usr, True)
-                user_id = usr.role.name
+                user_id = usr.id
                 if user_id:
                     print(" user_id:", user_id, '-->File "__init__.py", line 55')
 

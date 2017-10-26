@@ -8,9 +8,6 @@ session = scoped_session(sessionmaker(autocommit=False,
                                       autoflush=False,
                                       bind=create_engine(DB_URI)))
 
-# session_roles = scoped_session(sessionmaker(autocommit=False,
-#                                             autoflush=False,
-#                                             bind=create_engine(DB_ROLES_URI)))
 
 session_roles_aj = scoped_session(sessionmaker(autocommit=False,
                                                autoflush=False,
