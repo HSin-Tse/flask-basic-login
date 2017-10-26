@@ -7,7 +7,7 @@ from flask_principal import (
 )
 
 from app.admodels import User
-from db_sessions import session_roles, session_roles_aj
+from db_sessions import  session_roles_aj
 from extensions import role_admin, admin_permission, user_permission, editor_permission, current_privileges, \
     super_permission
 # from roles import User, Role
@@ -37,7 +37,6 @@ def login():
 
         usr = session_roles_aj.query(User).filter(User.username == u_name).first()
 
-        # user = session_roles.query(User).first()
         if usr is not None:
 
             print(" u_password:", u_password, '-->File "__init__.py", line 66')

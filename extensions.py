@@ -11,7 +11,7 @@ from flask import (
 )
 from flask_sqlalchemy import SQLAlchemy
 
-from db_sessions import session_roles, session_roles_aj
+from db_sessions import  session_roles_aj
 
 # from roles import User
 
