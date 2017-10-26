@@ -6,6 +6,7 @@ from flask_admin import Admin, BaseView, expose, AdminIndexView
 from flask_login import login_required, current_user
 from wtforms import PasswordField
 
+from app.admodels import User
 from extensions import admin_permission
 
 
@@ -62,9 +63,9 @@ class UserView(ModelView):
         'confirmed',
         'role',
     )
+    column_searchable_list = (User.username,)
 
     def on_model_change(self, form, user, is_created):
-
         if form.password.data is not None:
             user.password = user.set_password(form.password.data)
 
