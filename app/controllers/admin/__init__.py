@@ -48,7 +48,6 @@ class UserView(ModelView):
 
     # set the form fields to use
     form_columns = (
-        'id',
         'username',
         'password',
         'mail',
