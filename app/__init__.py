@@ -30,7 +30,7 @@ def create_app(config_filename):
             print(" current_user:", current_user, '-->File "__init__.py", line 31')
             print(" identity:", identity, '-->File "__init__.py", line 31')
             print(" current_user.role:", current_user.role, '-->File "__init__.py", line 32')
-            print(" current_user.role.name:", current_user.role.name, '-->File "__init__.py", line 32')
+            # print(" current_user.role.name:", current_user.role.name, '-->File "__init__.py", line 32')
 
             needs = []
 
@@ -42,7 +42,7 @@ def create_app(config_filename):
 
             if current_user.role.name == 'admin':
                 needs.append(role_admin)
-            # print(" needs:", needs, '-->File "__init__.py", line 33')
+            print(" needs:", needs, '-->File "__init__.py", line 33')
 
             for n in needs:
                  identity.provides.add(n)

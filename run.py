@@ -69,11 +69,8 @@ def tse():
 
 @app.route('/who')
 def who():
-    print(" g.identity:", g.identity, '-->File "run.py", line 66')
-    print(" g.identity:", g.identity, '-->File "run.py", line 66')
-    print(" g.identity:", g.identity, '-->File "run.py", line 66')
-    print(" g.identity:", g.identity, '-->File "run.py", line 66')
-    return (('Your current identity is: {id}.    | who You Are: {who}').format(id=g.identity.id, who=g.identity.provides))
+    return (
+    ('Your current identity is: {id}.    | who You Are: {who}').format(id=g.identity.id, who=g.identity.provides))
 
 
 @app.route('/')
@@ -89,7 +86,8 @@ def authentication_failed(e):
 
 @app.errorhandler(403)
 def authorisation_failed(e):
-    return (    ('Your current identity is: {id}.    | who You Are: {who}').format(id=g.identity.id, who=g.identity.provides))
+    return (
+    ('Your current identity is: {id}.    | who You Are: {who}').format(id=g.identity.id, who=g.identity.provides))
 
 
 if __name__ == '__main__':
