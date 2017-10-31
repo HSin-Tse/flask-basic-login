@@ -41,7 +41,7 @@ class ChildService(db.Model):
 
     tags = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
 
-    users = db.relationship('Role', backref='childservice', lazy='dynamic')
+    roles = db.relationship('Role', backref='childservice', lazy='dynamic')
 
     def __repr__(self):
         return '<Role %r>' % self.name

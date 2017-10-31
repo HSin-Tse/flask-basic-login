@@ -73,8 +73,8 @@ class ChildServiceModol(ModelView):
     form_columns = (
         'id',
         'name',
-        # 'tags',
-        'users',
+        'tags',
+        # 'users',
     )
     list_columns = (
         'id',
