@@ -25,9 +25,9 @@ principals = Principal()
 # Needs
 role_admin = RoleNeed('admin')
 role_editor = RoleNeed('editor')
-role_super_admin = RoleNeed('superadmin')
+role_super_admin = RoleNeed('superAdmin')
 
-action_sign_in = ActionNeed('sign in')
+action_sign_in = ActionNeed('signIn')
 
 # Permissions
 super_permission = Permission(role_super_admin,action_sign_in,role_admin)

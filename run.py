@@ -11,6 +11,7 @@ from flask import (
     url_for)
 from flask import flash
 from flask_admin import Admin
+from flask_principal import ActionNeed, Permission
 
 from app import create_app
 from app.controllers.admin import CustomFileAdmin, MyView, UserView, CustomModelView
@@ -67,10 +68,12 @@ def tse():
     # return render_template('account/about.html')
 
 
+
+
 @app.route('/who')
 def who():
     return (
-    ('Your current identity is: {id}.    | who You Are: {who}').format(id=g.identity.id, who=g.identity.provides))
+        ('Your current identity is: {id}.    | who You Are: {who}').format(id=g.identity.id, who=g.identity.provides))
 
 
 @app.route('/')
@@ -87,7 +90,7 @@ def authentication_failed(e):
 @app.errorhandler(403)
 def authorisation_failed(e):
     return (
-    ('Your current identity is: {id}.    | who You Are: {who}').format(id=g.identity.id, who=g.identity.provides))
+        ('Your current identity is: {id}.    | who You Are: {who}').format(id=g.identity.id, who=g.identity.provides))
 
 
 if __name__ == '__main__':

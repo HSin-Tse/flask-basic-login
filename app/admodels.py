@@ -9,6 +9,15 @@ article_tag = db.Table('article_tag',
                        db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True)
                        )
 
+# article_action = db.Table('article_tag',
+#                        db.Column('article_id', db.Integer, db.ForeignKey('article.id'), primary_key=True),
+#                        db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True)
+#                        )
+
+
+# childservice_action
+# action=tag
+# childservice=acticle
 
 class Article(db.Model):
     __tablename__ = 'article'
@@ -32,6 +41,9 @@ class Tag(db.Model):
         return '<Tag-%d %r>' % (self.id, self.name)
 
 
+# action=tag
+# childservice=acticle
+
 class ChildService(db.Model):
     __tablename__ = 'childservice'
     id = db.Column(db.Integer, primary_key=True)
@@ -44,6 +56,20 @@ class ChildService(db.Model):
 
     def __repr__(self):
         return '<Role %r>' % self.name
+
+
+# class Action(db.Model):
+#     __tablename__ = 'action'
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(64), unique=True)
+#
+#     # users = db.relationship('User', backref='role', lazy='dynamic')
+#     # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+#
+#
+#
+#     def __repr__(self):
+#         return '<Role %r>' % self.name
 
 
 class Role(db.Model):
