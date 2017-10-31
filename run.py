@@ -14,7 +14,7 @@ from flask_admin import Admin
 from flask_principal import ActionNeed, Permission
 
 from app import create_app
-from app.controllers.admin import CustomFileAdmin, MyView, UserView, CustomModelView
+from app.controllers.admin import CustomFileAdmin, MyView, UserView, CustomModelView, ChildServiceModol
 from db_sessions import session_roles_aj
 
 from flask_admin.contrib.sqla import ModelView
@@ -33,7 +33,7 @@ admin.add_view(MyView(name='Hello'))
 admin.add_view(ModelView(Role, session_roles_aj))
 # admin.add_view(ModelView(User, session_roles_aj))
 admin.add_view(UserView(User, session_roles_aj))
-admin.add_view(ModelView(ChildService, session_roles_aj))
+admin.add_view(ChildServiceModol(ChildService, session_roles_aj))
 admin.add_view(ModelView(Action, session_roles_aj))
 admin.add_view(ModelView(Article, session_roles_aj))
 admin.add_view(ModelView(Tag, session_roles_aj))

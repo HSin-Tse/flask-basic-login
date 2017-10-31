@@ -14,6 +14,7 @@ childservice_action = db.Table('childservice_action',
                                )
 
 
+
 class Article(db.Model):
     __tablename__ = 'article'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -52,7 +53,7 @@ class Action(db.Model):
     name = db.Column(db.String(64), unique=True)
 
     def __repr__(self):
-        return '<Role %r>' % self.name
+        return '<action %r>' % self.name
 
 
 class Role(db.Model):
