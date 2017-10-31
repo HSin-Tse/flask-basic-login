@@ -18,7 +18,7 @@ from app.controllers.admin import CustomFileAdmin, MyView, UserView, CustomModel
 from db_sessions import session_roles_aj
 
 from flask_admin.contrib.sqla import ModelView
-from app.admodels import Role, User, ChildService, Article, Tag
+from app.admodels import Role, User, ChildService, Article, Tag, Action
 # from extensions import mail
 from flask_mail import Message
 
@@ -34,6 +34,7 @@ admin.add_view(ModelView(Role, session_roles_aj))
 # admin.add_view(ModelView(User, session_roles_aj))
 admin.add_view(UserView(User, session_roles_aj))
 admin.add_view(ModelView(ChildService, session_roles_aj))
+admin.add_view(ModelView(Action, session_roles_aj))
 admin.add_view(ModelView(Article, session_roles_aj))
 admin.add_view(ModelView(Tag, session_roles_aj))
 # admin.add_view(UserView(User, session_roles_aj))

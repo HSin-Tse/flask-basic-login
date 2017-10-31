@@ -1,5 +1,3 @@
-from uuid import uuid4
-
 from flask_login import UserMixin, login_user
 
 from extensions import db, bcrypt
@@ -9,23 +7,17 @@ article_tag = db.Table('article_tag',
                        db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True)
                        )
 
-# article_action = db.Table('article_tag',
-#                        db.Column('article_id', db.Integer, db.ForeignKey('article.id'), primary_key=True),
-#                        db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True)
-#                        )
+childservice_action = db.Table('childservice_action',
+                               db.Column('childservice_id', db.Integer, db.ForeignKey('childservice.id'),
+                                         primary_key=True),
+                               db.Column('action_id', db.Integer, db.ForeignKey('action.id'), primary_key=True)
+                               )
 
-
-# childservice_action
-# action=tag
-# childservice=acticle
 
 class Article(db.Model):
     __tablename__ = 'article'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(100), nullable=False)
-    # 让Article和Tag产生关联
-    # 因为Article和Tag表中间还有一个article_tag表,所以添加secondary
-    # 假如拿到了一个标签Tag,怎么拿到标签下的所有文章呢.反向引用Article这时用backref
     tags = db.relationship('Tag', secondary=article_tag, backref=db.backref('articles'))
 
     def __repr__(self):
@@ -41,16 +33,12 @@ class Tag(db.Model):
         return '<Tag-%d %r>' % (self.id, self.name)
 
 
-# action=tag
-# childservice=acticle
-
 class ChildService(db.Model):
     __tablename__ = 'childservice'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
-    # users = db.relationship('User', backref='role', lazy='dynamic')
-    # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
+    tags = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
 
     users = db.relationship('Role', backref='childservice', lazy='dynamic')
 
@@ -58,18 +46,13 @@ class ChildService(db.Model):
         return '<Role %r>' % self.name
 
 
-# class Action(db.Model):
-#     __tablename__ = 'action'
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(64), unique=True)
-#
-#     # users = db.relationship('User', backref='role', lazy='dynamic')
-#     # role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-#
-#
-#
-#     def __repr__(self):
-#         return '<Role %r>' % self.name
+class Action(db.Model):
+    __tablename__ = 'action'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+
+    def __repr__(self):
+        return '<Role %r>' % self.name
 
 
 class Role(db.Model):
@@ -94,15 +77,6 @@ class User(db.Model, UserMixin):
     mail = db.Column(db.String(64), unique=True, index=True)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-
-    # def __init__(self):
-    #     self.id = str(uuid4())
-    # self.confirmed = confirmed
-
-
-    # Setup the default-role for user.
-    # default = Role.query.filter_by(name="default").one()
-    # self.roles.append(default)
 
     def set_password(self, password):
         """Convert the password to cryptograph via flask-bcrypt"""
