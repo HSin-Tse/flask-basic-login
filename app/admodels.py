@@ -2,36 +2,11 @@ from flask_login import UserMixin, login_user
 
 from extensions import db, bcrypt
 
-article_tag = db.Table('article_tag',
-                       db.Column('article_id', db.Integer, db.ForeignKey('article.id'), primary_key=True),
-                       db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True)
-                       )
-
 childservice_action = db.Table('childservice_action',
                                db.Column('childservice_id', db.Integer, db.ForeignKey('childservice.id'),
                                          primary_key=True),
                                db.Column('action_id', db.Integer, db.ForeignKey('action.id'), primary_key=True)
                                )
-
-
-
-class Article(db.Model):
-    __tablename__ = 'article'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    title = db.Column(db.String(100), nullable=False)
-    tags = db.relationship('Tag', secondary=article_tag, backref=db.backref('articles'))
-
-    def __repr__(self):
-        return '<Article-%d %r>' % (self.id, self.title)
-
-
-class Tag(db.Model):
-    __tablename__ = 'tag'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(100), nullable=True)
-
-    def __repr__(self):
-        return '<Tag-%d %r>' % (self.id, self.name)
 
 
 class ChildService(db.Model):

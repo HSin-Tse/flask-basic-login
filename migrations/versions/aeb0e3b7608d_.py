@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 8cc6a545e0e7
+Revision ID: aeb0e3b7608d
 Revises: 
-Create Date: 2017-10-31 17:53:43.074351
+Create Date: 2017-11-02 19:09:20.067849
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '8cc6a545e0e7'
+revision = 'aeb0e3b7608d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,28 +24,11 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
-    op.create_table('article',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('title', sa.String(length=100), nullable=False),
-    sa.PrimaryKeyConstraint('id')
-    )
     op.create_table('childservice',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=64), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
-    )
-    op.create_table('tag',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=100), nullable=True),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('article_tag',
-    sa.Column('article_id', sa.Integer(), nullable=False),
-    sa.Column('tag_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['article_id'], ['article.id'], ),
-    sa.ForeignKeyConstraint(['tag_id'], ['tag.id'], ),
-    sa.PrimaryKeyConstraint('article_id', 'tag_id')
     )
     op.create_table('childservice_action',
     sa.Column('childservice_id', sa.Integer(), nullable=False),
@@ -84,9 +67,6 @@ def downgrade():
     op.drop_table('users')
     op.drop_table('roles')
     op.drop_table('childservice_action')
-    op.drop_table('article_tag')
-    op.drop_table('tag')
     op.drop_table('childservice')
-    op.drop_table('article')
     op.drop_table('action')
     # ### end Alembic commands ###

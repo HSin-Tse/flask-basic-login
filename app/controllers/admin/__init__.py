@@ -71,13 +71,13 @@ class UserView(ModelView):
 
 class ChildServiceModol(ModelView):
     form_columns = (
-        'id',
+        # 'id',
         'name',
         'tags',
         # 'users',
     )
     list_columns = (
-        'id',
+        # 'id',
         'name',
         'tags',
         # 'users',
