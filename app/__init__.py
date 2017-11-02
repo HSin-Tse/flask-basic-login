@@ -6,8 +6,9 @@ from flask import (
 from flask_cors import CORS
 from flask_login import current_user
 from flask_principal import identity_loaded, ActionNeed, RoleNeed
+from flask_wtf import CsrfProtect
 
-from extensions import principals, action_sign_in, role_editor, role_admin, login_manager, db, mail, bcrypt
+from extensions import principals, action_sign_in, role_editor, role_admin, login_manager, db, mail, bcrypt, cache
 
 
 def create_app(config_filename):
@@ -19,8 +20,12 @@ def create_app(config_filename):
 
     principals.init_app(app)
     db.init_app(app)
+    CsrfProtect(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
+    cache.init_app(app)
+
+
 
     @identity_loaded.connect_via(app)
     def on_identity_loaded(sender, identity):

@@ -1,4 +1,5 @@
 from flask_bcrypt import Bcrypt
+from flask_cache import Cache
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_principal import (
@@ -44,6 +45,7 @@ db = SQLAlchemy()
 mail = Mail()
 bcrypt = Bcrypt()
 
+cache = Cache(config={'CACHE_TYPE': 'simple'})
 
 def current_privileges():
     return (('{method} : {value}').format(method=n.method, value=n.value)

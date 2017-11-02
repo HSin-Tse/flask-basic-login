@@ -22,7 +22,7 @@ from app.admodels import Role, User, ChildService, Article, Tag, Action
 # from extensions import mail
 from flask_mail import Message
 
-from extensions import mail, admin_permission, super_permission
+from extensions import mail, admin_permission, super_permission, cache
 
 app = create_app('config.BaseConfig')
 # app = create_app('config.DevelopmentConfig')
@@ -77,6 +77,7 @@ def who():
         ('Your current identity is: {id}.    | who You Are: {who}').format(id=g.identity.id, who=g.identity.provides))
 
 
+@cache.cached(timeout=50)
 @app.route('/')
 def aa():
     return 'home'
