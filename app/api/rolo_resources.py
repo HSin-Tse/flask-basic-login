@@ -3,7 +3,6 @@ from db_sessions import session_roles_aj
 
 from flask_restful import reqparse, abort, Resource, fields, marshal_with
 
-from roles import User
 
 user_fields = {
     'id': fields.Integer,
