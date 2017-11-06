@@ -6,7 +6,7 @@ from flask_admin import Admin, BaseView, expose, AdminIndexView
 from flask_login import login_required, current_user
 from wtforms import PasswordField
 
-from app.admodels import User, Role, ChildService
+from app.admodels import User, Role, ChildService, Action
 from extensions import admin_permission
 
 
@@ -112,7 +112,7 @@ class ActionModol(ModelView):
         'services',
         # 'users',
     )
-    column_searchable_list = (ChildService.name,)
+    column_searchable_list = (Action.name,)
 
 
 class MyView(BaseView):
