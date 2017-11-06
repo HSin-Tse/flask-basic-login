@@ -20,7 +20,8 @@ class BaseConfig(object):
 
     DEBUG = True
     PORT = 5000
-    HOST = "127.0.0.1"
+    # HOST = "127.0.0.1"
+    HOST = "0.0.0.0"
     SECRET_KEY = "SOME SECRET"
 
     MAIL_SERVER = '''smtp.partner.outlook.cn''',
