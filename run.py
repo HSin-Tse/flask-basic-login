@@ -14,11 +14,11 @@ from flask_admin import Admin
 from flask_principal import ActionNeed, Permission
 
 from app import create_app
-from app.controllers.admin import CustomFileAdmin, MyView, UserView, CustomModelView, ChildServiceModol
+from app.controllers.admin import CustomFileAdmin, MyView, UserView, CustomModelView, ChildServiceModol, RoleModol
 from db_sessions import session_roles_aj
 
 from flask_admin.contrib.sqla import ModelView
-from app.admodels import Role, User
+from app.admodels import Role, User, ChildService
 # from app.admodels import ChildService, Action
 # from extensions import mail
 from flask_mail import Message
@@ -32,8 +32,9 @@ admin = Admin(app, name='Tse')
 admin.add_view(MyView(name='Hello'))
 
 admin.add_view(UserView(User, session_roles_aj))
-admin.add_view(ModelView(Role, session_roles_aj))
+admin.add_view(RoleModol(Role, session_roles_aj))
 
+admin.add_view(ChildServiceModol(ChildService, session_roles_aj))
 # admin.add_view(ChildServiceModol(ChildService, session_roles_aj))
 # admin.add_view(ModelView(Action, session_roles_aj))
 

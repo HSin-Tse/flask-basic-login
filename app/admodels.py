@@ -8,18 +8,21 @@ from extensions import db, bcrypt
 #                                db.Column('action_id', db.Integer, db.ForeignKey('action.id'), primary_key=True)
 #                                )
 #
+
+# childservice_role = db.Table('childservice_action',
+#                                db.Column('childservice_id', db.Integer, db.ForeignKey('childservice.id'),
+#                                          primary_key=True),
+#                                db.Column('action_id', db.Integer, db.ForeignKey('action.id'), primary_key=True)
+#                                )
+
 #
-# class ChildService(db.Model):
-#     __tablename__ = 'childservice'
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(64), unique=True)
-#
-#     actions = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
-#
-#     roles = db.relationship('Role', backref='childservice', lazy='dynamic')
-#
-#     def __repr__(self):
-#         return '<Role %r>' % self.name
+
+childservice_role = db.Table('association',
+                             db.Column('childservice_id', db.Integer, db.ForeignKey('childservice.id')),
+                             db.Column('roles_id', db.Integer, db.ForeignKey('roles.id'))
+                             )
+
+
 #
 #
 # class Action(db.Model):
@@ -31,12 +34,29 @@ from extensions import db, bcrypt
 #         return '<action %r>' % self.name
 
 
+
+class ChildService(db.Model):
+    __tablename__ = 'childservice'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    children = db.relationship("Role", secondary=childservice_role)
+
+    # actions = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
+    # actions = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
+
+    # roles = db.relationship('Role', backref='childservice', lazy='dynamic')
+
+    def __repr__(self):
+        return '<ChildService %r>' % self.name
+
+
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
+    service = db.relationship("ChildService", secondary=childservice_role)
 
-    users = db.relationship('User', backref='role', lazy='dynamic')
+    users = db.relationship('User', backref='role', lazy='dynamic')  # 一對多  Role<==>User
 
     # childservice_id = db.Column(db.Integer, db.ForeignKey('childservice.id'))
 
@@ -53,7 +73,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255))
     mail = db.Column(db.String(64), unique=True, index=True)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))  # 一對多  Role<==>User
 
     def set_password(self, password):
         """Convert the password to cryptograph via flask-bcrypt"""

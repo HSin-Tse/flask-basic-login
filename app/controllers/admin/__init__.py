@@ -69,40 +69,34 @@ class UserView(ModelView):
             user.password = user.set_password(form.password.data)
 
 
-class ChildServiceModol(ModelView):
+class RoleModol(ModelView):
     form_columns = (
-        # 'id',
         'name',
-        'actions',
         # 'users',
     )
     list_columns = (
-        # 'id',
         'name',
-        'actions',
+        'service',
+        # 'users',
         # 'users',
     )
     column_searchable_list = (User.username,)
 
 
-# class ChildService(db.Model):
-#     __tablename__ = 'childservice'
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(64), unique=True)
-#
-#     tags = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
-#
-#     users = db.relationship('Role', backref='childservice', lazy='dynamic')
-#
-#     def __repr__(self):
-#         return '<Role %r>' % self.name
-
-# id = db.Column(db.Integer, primary_key=True)
-# username = db.Column(db.String(64), unique=True, index=True)
-# password = db.Column(db.String(16))
-# mail = db.Column(db.String(64), unique=True, index=True)
-# confirmed = db.Column(db.Boolean, nullable=False, default=False)
-# role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+class ChildServiceModol(ModelView):
+    form_columns = (
+        # 'id',
+        'name',
+        'children',
+        # 'users',
+    )
+    list_columns = (
+        # 'id',
+        'name',
+        'children',
+        # 'users',
+    )
+    column_searchable_list = (User.username,)
 
 
 class MyView(BaseView):
