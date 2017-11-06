@@ -2,44 +2,45 @@ from flask_login import UserMixin, login_user
 
 from extensions import db, bcrypt
 
-childservice_action = db.Table('childservice_action',
-                               db.Column('childservice_id', db.Integer, db.ForeignKey('childservice.id'),
-                                         primary_key=True),
-                               db.Column('action_id', db.Integer, db.ForeignKey('action.id'), primary_key=True)
-                               )
-
-
-class ChildService(db.Model):
-    __tablename__ = 'childservice'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-
-    actions = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
-
-    roles = db.relationship('Role', backref='childservice', lazy='dynamic')
-
-    def __repr__(self):
-        return '<Role %r>' % self.name
-
-
-class Action(db.Model):
-    __tablename__ = 'action'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-
-    def __repr__(self):
-        return '<action %r>' % self.name
+# childservice_action = db.Table('childservice_action',
+#                                db.Column('childservice_id', db.Integer, db.ForeignKey('childservice.id'),
+#                                          primary_key=True),
+#                                db.Column('action_id', db.Integer, db.ForeignKey('action.id'), primary_key=True)
+#                                )
+#
+#
+# class ChildService(db.Model):
+#     __tablename__ = 'childservice'
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(64), unique=True)
+#
+#     actions = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
+#
+#     roles = db.relationship('Role', backref='childservice', lazy='dynamic')
+#
+#     def __repr__(self):
+#         return '<Role %r>' % self.name
+#
+#
+# class Action(db.Model):
+#     __tablename__ = 'action'
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(64), unique=True)
+#
+#     def __repr__(self):
+#         return '<action %r>' % self.name
 
 
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
+
     users = db.relationship('User', backref='role', lazy='dynamic')
 
-    childservice_id = db.Column(db.Integer, db.ForeignKey('childservice.id'))
+    # childservice_id = db.Column(db.Integer, db.ForeignKey('childservice.id'))
 
-    # childservice = db.relationship('ChildService', backref='role', lazy='dynamic')
+    # childservice = db.relationship('User', backref='role', lazy='dynamic')
 
     def __repr__(self):
         return '<Role %r>' % self.name

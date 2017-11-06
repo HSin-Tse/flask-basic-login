@@ -41,7 +41,7 @@ def create_app(config_filename):
             # action_sign_in = ActionNeed('sign in')
 
             needs.append(RoleNeed(current_user.role.name))
-            needs.append(ActionNeed(current_user.role.childservice.name))
+            # needs.append(ActionNeed(current_user.role.childservice.name))
 
             # if current_user.role.name in ('user', 'editor', 'admin'):
             #     needs.append(action_sign_in)

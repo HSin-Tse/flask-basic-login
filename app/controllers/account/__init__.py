@@ -36,6 +36,10 @@ def login():
         print(" u_password:", u_password, '-->File "__init__.py", line 48')
 
         usr = session_roles_aj.query(User).filter(User.username == u_name).first()
+        usr = session_roles_aj.query(User).filter(User.username == u_name).first()
+        print(" usr:", usr, '-->File "__init__.py", line 39')
+        print(" usr:", usr, '-->File "__init__.py", line 39')
+        print(" usr:", usr, '-->File "__init__.py", line 39')
 
         if usr is not None:
 
