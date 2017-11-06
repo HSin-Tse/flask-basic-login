@@ -69,20 +69,12 @@ class UserView(ModelView):
             user.password = user.set_password(form.password.data)
 
 
-class RoleModol(ModelView):
-    form_columns = (
-        'name',
-        'users',
-    )
-    list_columns = (
-        'name',
-        'service',
-        'users',
-        # 'users',
-    )
-    column_searchable_list = (Role.name,)
+form_columns = (
+    'name',
+    'users',
+    'service',
 
-
+)
 class ChildServiceModol(ModelView):
     form_columns = (
         # 'id',
@@ -97,6 +89,16 @@ class ChildServiceModol(ModelView):
         'actions',
     )
     column_searchable_list = (ChildService.name,)
+
+
+class RoleModol(ModelView):
+    list_columns = (
+        'name',
+        'service',
+        'users',
+        # 'users',
+    )
+    column_searchable_list = (Role.name,)
 
 
 class ActionModol(ModelView):
