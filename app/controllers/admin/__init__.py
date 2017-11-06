@@ -72,12 +72,12 @@ class UserView(ModelView):
 class RoleModol(ModelView):
     form_columns = (
         'name',
-        # 'users',
+        'users',
     )
     list_columns = (
         'name',
         'service',
-        # 'users',
+        'users',
         # 'users',
     )
     column_searchable_list = (User.username,)

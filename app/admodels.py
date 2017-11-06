@@ -56,7 +56,7 @@ class Role(db.Model):
     name = db.Column(db.String(64), unique=True)
     service = db.relationship("ChildService", secondary=childservice_role)
 
-    users = db.relationship('User', backref='role', lazy='dynamic')  # 一對多  Role<==>User
+    users = db.relationship('User', backref='role')  # 一對多  Role<==>User
 
     # childservice_id = db.Column(db.Integer, db.ForeignKey('childservice.id'))
 
