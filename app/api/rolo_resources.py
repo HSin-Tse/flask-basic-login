@@ -20,31 +20,30 @@ user_fields = {
         {
             'id': fields.String(),
             'name': fields.String,
-            'users': fields.List(fields.Nested(
-
-                {
-
-                    'id': fields.String(),
-                    'username': fields.String,
-
-                    # 'name': fields.String()
-                }
-                # nested_tag_fields
-
-            )),
-
-
+            # 'users': fields.List(fields.Nested(
+            #     {
+            #         'id': fields.String(),
+            #         'username': fields.String,
+            #         # 'name': fields.String()
+            #     }
+            # )),
             'service': fields.List(fields.Nested(
-
                 {
 
                     'id': fields.String(),
                     'name': fields.String(),
+                    'actions': fields.List(fields.Nested(
+                        {
+
+                            'id': fields.String(),
+                            'name': fields.String(),
+
+                        }
+
+                    )),
                 }
-                # nested_tag_fields
 
             )),
-            # 'service': fields.Nested(fields.Nested(nested_tag_fields)),
         }
     ),
 
