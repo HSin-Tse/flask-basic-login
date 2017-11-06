@@ -2,11 +2,11 @@ from flask_login import UserMixin, login_user
 
 from extensions import db, bcrypt
 
-# childservice_action = db.Table('childservice_action',
-#                                db.Column('childservice_id', db.Integer, db.ForeignKey('childservice.id'),
-#                                          primary_key=True),
-#                                db.Column('action_id', db.Integer, db.ForeignKey('action.id'), primary_key=True)
-#                                )
+childservice_action = db.Table('childservice_action',
+                               db.Column('childservice_id', db.Integer, db.ForeignKey('childservice.id'),
+                                         primary_key=True),
+                               db.Column('action_id', db.Integer, db.ForeignKey('action.id'), primary_key=True)
+                               )
 #
 
 # childservice_role = db.Table('childservice_action',
@@ -23,15 +23,15 @@ childservice_role = db.Table('association',
                              )
 
 
-#
-#
-# class Action(db.Model):
-#     __tablename__ = 'action'
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(64), unique=True)
-#
-#     def __repr__(self):
-#         return '<action %r>' % self.name
+
+class Action(db.Model):
+    __tablename__ = 'action'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    services = db.relationship('ChildService', secondary=childservice_action)
+
+    def __repr__(self):
+        return '<action %r>' % self.name
 
 
 
@@ -41,7 +41,7 @@ class ChildService(db.Model):
     name = db.Column(db.String(64), unique=True)
     children = db.relationship("Role", secondary=childservice_role)
 
-    # actions = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
+    actions = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
     # actions = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
 
     # roles = db.relationship('Role', backref='childservice', lazy='dynamic')

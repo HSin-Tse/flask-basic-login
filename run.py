@@ -14,11 +14,12 @@ from flask_admin import Admin
 from flask_principal import ActionNeed, Permission
 
 from app import create_app
-from app.controllers.admin import CustomFileAdmin, MyView, UserView, CustomModelView, ChildServiceModol, RoleModol
+from app.controllers.admin import CustomFileAdmin, MyView, UserView, CustomModelView, ChildServiceModol, RoleModol, \
+    ActionModol
 from db_sessions import session_roles_aj
 
 from flask_admin.contrib.sqla import ModelView
-from app.admodels import Role, User, ChildService
+from app.admodels import Role, User, ChildService, Action
 # from app.admodels import ChildService, Action
 # from extensions import mail
 from flask_mail import Message
@@ -35,8 +36,7 @@ admin.add_view(UserView(User, session_roles_aj))
 admin.add_view(RoleModol(Role, session_roles_aj))
 
 admin.add_view(ChildServiceModol(ChildService, session_roles_aj))
-# admin.add_view(ChildServiceModol(ChildService, session_roles_aj))
-# admin.add_view(ModelView(Action, session_roles_aj))
+admin.add_view(ActionModol(Action, session_roles_aj))
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 path = os.path.join(basedir, 'app', 'static')
@@ -65,8 +65,6 @@ def send_mail():
 def tse():
     return 'home'
     # return render_template('account/about.html')
-
-
 
 
 @app.route('/who')
