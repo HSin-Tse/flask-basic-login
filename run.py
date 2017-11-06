@@ -30,8 +30,8 @@ app = create_app('config.BaseConfig')
 admin = Admin(app, name='Tse')
 admin.add_view(MyView(name='Hello'))
 
-admin.add_view(ModelView(Role, session_roles_aj))
 admin.add_view(UserView(User, session_roles_aj))
+admin.add_view(ModelView(Role, session_roles_aj))
 admin.add_view(ChildServiceModol(ChildService, session_roles_aj))
 admin.add_view(ModelView(Action, session_roles_aj))
 

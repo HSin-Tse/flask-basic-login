@@ -14,7 +14,7 @@ class ChildService(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
 
-    tags = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
+    actions = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
 
     roles = db.relationship('Role', backref='childservice', lazy='dynamic')
 

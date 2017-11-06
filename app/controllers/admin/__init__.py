@@ -73,13 +73,13 @@ class ChildServiceModol(ModelView):
     form_columns = (
         # 'id',
         'name',
-        'tags',
+        'actions',
         # 'users',
     )
     list_columns = (
         # 'id',
         'name',
-        'tags',
+        'actions',
         # 'users',
     )
     column_searchable_list = (User.username,)
