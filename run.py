@@ -8,7 +8,7 @@ from flask import (
     request,
     session,
     current_app,
-    url_for)
+    url_for, jsonify)
 from flask import flash
 from flask_admin import Admin
 from flask_principal import ActionNeed, Permission
@@ -60,11 +60,7 @@ def send_mail():
     return 'Successful'
 
 
-@app.route('/tse')
-@super_permission.require(http_exception=403)
-def tse():
-    return 'home'
-    # return render_template('account/about.html')
+
 
 
 @app.route('/who')
@@ -77,6 +73,9 @@ def who():
 @app.route('/')
 def aa():
     return 'home'
+
+
+
 
 
 @app.errorhandler(401)

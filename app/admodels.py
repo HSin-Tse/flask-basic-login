@@ -7,21 +7,11 @@ childservice_action = db.Table('childservice_action',
                                          primary_key=True),
                                db.Column('action_id', db.Integer, db.ForeignKey('action.id'), primary_key=True)
                                )
-#
-
-# childservice_role = db.Table('childservice_action',
-#                                db.Column('childservice_id', db.Integer, db.ForeignKey('childservice.id'),
-#                                          primary_key=True),
-#                                db.Column('action_id', db.Integer, db.ForeignKey('action.id'), primary_key=True)
-#                                )
-
-#
 
 childservice_role = db.Table('association',
                              db.Column('childservice_id', db.Integer, db.ForeignKey('childservice.id')),
                              db.Column('roles_id', db.Integer, db.ForeignKey('roles.id'))
                              )
-
 
 
 class Action(db.Model):
@@ -34,7 +24,6 @@ class Action(db.Model):
         return '<action %r>' % self.name
 
 
-
 class ChildService(db.Model):
     __tablename__ = 'childservice'
     id = db.Column(db.Integer, primary_key=True)
@@ -42,12 +31,9 @@ class ChildService(db.Model):
     children = db.relationship("Role", secondary=childservice_role)
 
     actions = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
-    # actions = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
-
-    # roles = db.relationship('Role', backref='childservice', lazy='dynamic')
 
     def __repr__(self):
-        return '<ChildService %r>' % self.name
+        return '<Service %r>' % self.name
 
 
 class Role(db.Model):
@@ -57,10 +43,6 @@ class Role(db.Model):
     service = db.relationship("ChildService", secondary=childservice_role)
 
     users = db.relationship('User', backref='role')  # 一對多  Role<==>User
-
-    # childservice_id = db.Column(db.Integer, db.ForeignKey('childservice.id'))
-
-    # childservice = db.relationship('User', backref='role', lazy='dynamic')
 
     def __repr__(self):
         return '<Role %r>' % self.name

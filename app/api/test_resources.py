@@ -4,11 +4,6 @@ from db_sessions import session_roles_aj
 from flask_restful import reqparse, abort, Resource, fields, marshal_with
 from app.admodels import Role, User, ChildService, Action
 
-nested_tag_fields = {
-    'id': fields.String(),
-    'name': fields.String()
-
-}
 
 user_fields = {
     'id': fields.Integer,
@@ -16,44 +11,7 @@ user_fields = {
     'password': fields.String,
     'role_id': fields.String,
     'uri': fields.Url('api.user', absolute=True),
-    'role': fields.Nested(
-        {
-            'id': fields.String(),
-            'name': fields.String,
-            'users': fields.List(fields.Nested(
-
-                {
-
-                    'id': fields.String(),
-                    'username': fields.String,
-
-                    # 'name': fields.String()
-                }
-                # nested_tag_fields
-
-            )),
-
-
-            'service': fields.List(fields.Nested(
-
-                {
-
-                    'id': fields.String(),
-                    'name': fields.String(),
-                }
-                # nested_tag_fields
-
-            )),
-            # 'service': fields.Nested(fields.Nested(nested_tag_fields)),
-        }
-    ),
-
 }
-tse_fields = {'id': fields.Integer, 'username': fields.String, 'email': fields.String, 'user_priority': fields.Integer,
-              'custom_greeting': fields.FormattedString('Hey there {username}!'), 'date_created': fields.DateTime,
-              'date_updated': fields.DateTime, 'links': fields.Nested(
-        {'friends': fields.Url('/Users/{id}/Friends', absolute=True),
-         'posts': fields.Url('Users/{id}/Posts', absolute=True),}),}
 
 parser = reqparse.RequestParser()
 parser.add_argument('username', type=str)
@@ -66,14 +24,6 @@ class UserResource(Resource):
         todo = session_roles_aj.query(User).filter(User.id == id).first()
         if not todo:
             abort(404, message="Todo {} doesn't exist".format(id))
-
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-
         return todo
 
     # @user_permission.require(http_exception=403)
