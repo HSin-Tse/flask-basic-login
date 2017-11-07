@@ -4,50 +4,30 @@ from extensions import user_permission, admin_permission
 from db_sessions import session_roles_aj
 
 from flask_restful import reqparse, abort, Resource, fields, marshal_with
-from app.admodels import Role, User, ChildService, Action
+from app.admodels import Action
 
-nested_tag_fields = {
-    'id': fields.String(),
-    'name': fields.String()
-
-}
+# class Action(db.Model):
+#     __tablename__ = 'action'
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(64), unique=True)
+#     services = db.relationship('ChildService', secondary=childservice_action)
+#
+#     def __repr__(self):
+#         return '<action %r>' % self.name
 
 user_fields = {
     'id': fields.Integer,
-    'username': fields.String,
-    'password': fields.String,
-    'role_id': fields.String,
-    'uri': fields.Url('api.user', absolute=True),
-    'role': fields.Nested(
+    'name': fields.String,
+    'uri': fields.Url('api.action', absolute=True),
+    'services': fields.List(fields.Nested(
         {
+
             'id': fields.String(),
-            'name': fields.String,
-            # 'users': fields.List(fields.Nested(
-            #     {
-            #         'id': fields.String(),
-            #         'username': fields.String,
-            #         # 'name': fields.String()
-            #     }
-            # )),
-            'service': fields.List(fields.Nested(
-                {
+            'name': fields.String(),
 
-                    'id': fields.String(),
-                    'name': fields.String(),
-                    'actions': fields.List(fields.Nested(
-                        {
-
-                            'id': fields.String(),
-                            'name': fields.String(),
-
-                        }
-
-                    )),
-                }
-
-            )),
         }
-    ),
+
+    )),
 
 }
 tse_fields = {'id': fields.Integer, 'username': fields.String, 'email': fields.String, 'user_priority': fields.Integer,
@@ -61,10 +41,10 @@ parser.add_argument('username', type=str)
 parser.add_argument('password', type=str)
 
 
-class UserResource(Resource):
+class ActionResource(Resource):
     @marshal_with(user_fields)
     def get(self, id):
-        todo = session_roles_aj.query(User).filter(User.id == id).first()
+        todo = session_roles_aj.query(Action).filter(Action.id == id).first()
         if not todo:
             abort(404, message="Todo {} doesn't exist".format(id))
 
@@ -79,7 +59,7 @@ class UserResource(Resource):
 
     # @user_permission.require(http_exception=403)
     def delete(self, id):
-        todo = session_roles_aj.query(User).filter(User.id == id).first()
+        todo = session_roles_aj.query(Action).filter(Action.id == id).first()
         if not todo:
             abort(404, message="Todo {} doesn't exist".format(id))
         session_roles_aj.delete(todo)
@@ -89,19 +69,19 @@ class UserResource(Resource):
     @marshal_with(user_fields)
     def put(self, id):
         parsed_args = parser.parse_args()
-        user = session_roles_aj.query(User).filter(User.id == id).first()
+        user = session_roles_aj.query(Action).filter(Action.id == id).first()
         user.task = parsed_args['task']
         session_roles_aj.add(user)
         session_roles_aj.commit()
         return user, 201
 
 
-class UserListResource(Resource):
+class ActionListResource(Resource):
     @marshal_with(user_fields)
     # @admin_permission.require(http_exception=403)
 
     def get(self):
-        todos = session_roles_aj.query(User).all()
+        todos = session_roles_aj.query(Action).all()
         return todos
 
     @marshal_with(user_fields)
@@ -118,11 +98,11 @@ class UserListResource(Resource):
         print(" input_username:", input_username, '-->File "rolo_resources.py", line 63')
         print(" input_username:", input_username, '-->File "rolo_resources.py", line 63')
 
-        tell = session_roles_aj.query(User).filter(User.username == input_username).first()
+        tell = session_roles_aj.query(Action).filter(Action.username == input_username).first()
         if tell is not None:
             return tell
 
-        todo = User(password=parsed_args['password'], username=parsed_args['username'])
+        todo = Action(password=parsed_args['password'], username=parsed_args['username'])
         session_roles_aj.add(todo)
 
         # session_roles.commit()
@@ -130,7 +110,6 @@ class UserListResource(Resource):
             session_roles_aj.commit()
         except:
             print(" rollback:", '-->File "rolo_resources.py", line 132')
-
 
             session_roles_aj.rollback()
 
