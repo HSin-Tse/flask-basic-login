@@ -39,6 +39,7 @@ tse_fields = {'id': fields.Integer, 'username': fields.String, 'email': fields.S
 parser = reqparse.RequestParser()
 parser.add_argument('username', type=str)
 parser.add_argument('password', type=str)
+parser.add_argument('service', type=str)
 
 
 class ActionResource(Resource):
@@ -50,27 +51,33 @@ class ActionResource(Resource):
 
         print(" todo:", todo, '-->File "rolo_resources.py", line 29')
         print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
 
         return todo
 
-    # @user_permission.require(http_exception=403)
     def delete(self, id):
+
+        # todo = session_roles_aj.query(Action).first()
         todo = session_roles_aj.query(Action).filter(Action.id == id).first()
-        if not todo:
-            abort(404, message="Todo {} doesn't exist".format(id))
+
+        print(" todo.name:", todo.name, '-->File "actions_resources.py", line 59')
+        print(" todo.name:", todo.name, '-->File "actions_resources.py", line 59')
+        print(" todo.name:", todo.id, '-->File "actions_resources.py", line 59')
+        print(" todo.name:", todo.id, '-->File "actions_resources.py", line 59')
+
+        todo.services = []
+        session_roles_aj.add(todo)
+        session_roles_aj.commit()
+        print(" commit:", '-->File "manage.py", line 63')
         session_roles_aj.delete(todo)
         session_roles_aj.commit()
+
         return {}, 204
 
     @marshal_with(user_fields)
     def put(self, id):
         parsed_args = parser.parse_args()
         user = session_roles_aj.query(Action).filter(Action.id == id).first()
-        user.task = parsed_args['task']
+        user.name = parsed_args['service']
         session_roles_aj.add(user)
         session_roles_aj.commit()
         return user, 201
