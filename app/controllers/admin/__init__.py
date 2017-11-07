@@ -1,4 +1,4 @@
-from flask import url_for
+from flask import url_for,redirect
 from flask_admin.contrib.fileadmin import FileAdmin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import Admin, BaseView, expose, AdminIndexView
@@ -120,11 +120,9 @@ class ActionModol(ModelView):
 class MyView(BaseView):
     @expose('/')
     def index(self):
-        return "aaaa"
+        return redirect('http://127.0.0.1:5000/admin/')
 
-    # def index(self):
+        # def index(self):
     #     return url_for('account.index')
 
-    @expose('/second_page')
-    def second_page(self):
-        return "s"
+

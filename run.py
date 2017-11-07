@@ -30,7 +30,7 @@ app = create_app('config.BaseConfig')
 # app = create_app('config.DevelopmentConfig')
 
 admin = Admin(app, name='Tse')
-admin.add_view(MyView(name='Hello'))
+admin.add_view(MyView(name='API'))
 
 admin.add_view(UserView(User, session_roles_aj))
 admin.add_view(RoleModol(Role, session_roles_aj))

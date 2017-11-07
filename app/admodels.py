@@ -1,3 +1,4 @@
+import datetime
 from flask_login import UserMixin, login_user
 
 from extensions import db, bcrypt
@@ -55,7 +56,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255))
     mail = db.Column(db.String(64), unique=True, index=True)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))  # 一對多  Role<==>User
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'),default=1)  # 一對多  Role<==>User
+    # create_time = db.Column(db.datetime, default=datetime.now)
+    # time = db.Column(db.Date, default=db.datetime.utcnow)
 
     def set_password(self, password):
         """Convert the password to cryptograph via flask-bcrypt"""
