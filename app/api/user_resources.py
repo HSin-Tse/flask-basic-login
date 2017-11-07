@@ -1,3 +1,5 @@
+from flask import request
+
 from extensions import user_permission, admin_permission
 from db_sessions import session_roles_aj
 
@@ -104,8 +106,16 @@ class UserListResource(Resource):
 
     @marshal_with(user_fields)
     def post(self):
+        # json_data = request.get_json(force=True)
+        # print(" json_data:", json_data, '-->File "rolo_resources.py", line 110')
+        # print(" json_data:", json_data, '-->File "rolo_resources.py", line 110')
+        # print(" json_data:", json_data, '-->File "rolo_resources.py", line 110')
+
+
+
         parsed_args = parser.parse_args()
         input_username = parsed_args['username']
+        print(" input_username:", input_username, '-->File "rolo_resources.py", line 63')
         print(" input_username:", input_username, '-->File "rolo_resources.py", line 63')
 
         tell = session_roles_aj.query(User).filter(User.username == input_username).first()
@@ -119,6 +129,9 @@ class UserListResource(Resource):
         try:
             session_roles_aj.commit()
         except:
+            print(" rollback:", '-->File "rolo_resources.py", line 132')
+
+
             session_roles_aj.rollback()
 
         return todo, 201
