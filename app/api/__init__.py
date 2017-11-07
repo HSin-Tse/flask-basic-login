@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify
 from flask_restful import Api, abort
 
 from app.api.role_resources import RoleListResource, RoleResource
+from app.api.services_resources import ServiceResource, ServiceListResource
 from app.api.user_resources import UserListResource, UserResource
 
 api_bp = Blueprint('api', __name__, 'templates')
@@ -52,3 +53,6 @@ api.add_resource(UserResource, '/users/<string:id>', endpoint='user')
 
 api.add_resource(RoleListResource, '/roles', endpoint='roles')
 api.add_resource(RoleResource, '/roles/<string:id>', endpoint='role')
+
+api.add_resource(ServiceListResource, '/services', endpoint='services')
+api.add_resource(ServiceResource, '/services/<string:id>', endpoint='service')
