@@ -45,6 +45,14 @@ admin.add_view(CustomFileAdmin(path,
                                name='Static Files'))
 
 
+@app.before_request
+def before_request():
+    ip = request.remote_addr
+    url = request.url
+    print(" ip:", ip, '-->File "run.py", line 53')
+    print(" url:", url, '-->File "run.py", line 54')
+
+
 @app.route('/testmail')
 def send_mail():
     mail.init_app(app)
@@ -60,9 +68,6 @@ def send_mail():
     return 'Successful'
 
 
-
-
-
 @app.route('/who')
 def who():
     return (
@@ -74,8 +79,11 @@ def who():
 def aa():
     return 'home'
 
+@app.route('/r')
+def r():
+    session_roles_aj.rollback()
 
-
+    return 'home'
 
 
 @app.errorhandler(401)

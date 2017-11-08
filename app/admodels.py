@@ -4,9 +4,9 @@ from flask_login import UserMixin, login_user
 from extensions import db, bcrypt
 
 childservice_action = db.Table('childservice_action',
-                               db.Column('childservice_id', db.Integer, db.ForeignKey('childservice.id'),
-                                         primary_key=True),
-                               db.Column('action_id', db.Integer, db.ForeignKey('action.id'), primary_key=True)
+                               db.Column('childservice_id', db.Integer, db.ForeignKey('childservice.id')
+                                         ),
+                               db.Column('action_id', db.Integer, db.ForeignKey('action.id'))
                                )
 
 childservice_role = db.Table('association',
@@ -29,9 +29,9 @@ class ChildService(db.Model):
     __tablename__ = 'childservice'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
-    children = db.relationship("Role", secondary=childservice_role)
+    roles = db.relationship("Role", secondary=childservice_role)
 
-    actions = db.relationship('Action', secondary=childservice_action, backref=db.backref('childservice'))
+    actions = db.relationship('Action', secondary=childservice_action)
 
     def __repr__(self):
         return '<Service %r>' % self.name

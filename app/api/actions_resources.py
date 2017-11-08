@@ -123,7 +123,7 @@ class ActionListResource(Resource):
         print("  todo.services:", todo.services, '-->File "actions_resources.py", line 118')
         print("  todo.services:", todo.services, '-->File "actions_resources.py", line 118')
 
-        todo.services.insert(0, session_roles_aj.query(ChildService).first())
+        todo.services.append(session_roles_aj.query(ChildService).first())
         session_roles_aj.add(todo)
 
         # session_roles.commit()

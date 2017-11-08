@@ -72,12 +72,6 @@ class RoleResource(Resource):
         if not todo:
             abort(404, message="Todo {} doesn't exist".format(id))
 
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
-        print(" todo:", todo, '-->File "rolo_resources.py", line 29')
 
         return todo
 
@@ -119,11 +113,9 @@ class RoleListResource(Resource):
 
 
         parsed_args = parser.parse_args()
-        input_username = parsed_args['username']
-        print(" input_username:", input_username, '-->File "rolo_resources.py", line 63')
-        print(" input_username:", input_username, '-->File "rolo_resources.py", line 63')
+        input_name = parsed_args['name']
 
-        tell = session_roles_aj.query(Role).filter(Role.username == input_username).first()
+        tell = session_roles_aj.query(Role).filter(Role.name == input_name).first()
         if tell is not None:
             return tell
 

@@ -79,13 +79,13 @@ class ChildServiceModol(ModelView):
     form_columns = (
         # 'id',
         'name',
-        'children',
+        'roles',
         'actions',
     )
     list_columns = (
         # 'id',
         'name',
-        'children',
+        'roles',
         'actions',
     )
     column_searchable_list = (ChildService.name,)
@@ -120,9 +120,9 @@ class ActionModol(ModelView):
 class MyView(BaseView):
     @expose('/')
     def index(self):
-        return redirect('http://127.0.0.1:5000/admin/')
+        return redirect('http://127.0.0.1:5000/r')
 
         # def index(self):
-    #     return url_for('account.index')
+        # return url_for('app.r')
 
 
