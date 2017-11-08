@@ -4,7 +4,7 @@ from extensions import user_permission, admin_permission
 from db_sessions import session_roles_aj
 
 from flask_restful import reqparse, abort, Resource, fields, marshal_with
-from app.admodels import Action
+from app.admodels import Action, ChildService
 
 # class Action(db.Model):
 #     __tablename__ = 'action'
@@ -38,6 +38,7 @@ tse_fields = {'id': fields.Integer, 'username': fields.String, 'email': fields.S
 
 parser = reqparse.RequestParser()
 parser.add_argument('username', type=str)
+parser.add_argument('name', type=str)
 parser.add_argument('password', type=str)
 parser.add_argument('service', type=str)
 
@@ -55,7 +56,6 @@ class ActionResource(Resource):
         return todo
 
     def delete(self, id):
-
         # todo = session_roles_aj.query(Action).first()
         todo = session_roles_aj.query(Action).filter(Action.id == id).first()
 
@@ -94,22 +94,36 @@ class ActionListResource(Resource):
     @marshal_with(user_fields)
     def post(self):
         # json_data = request.get_json(force=True)
-        # print(" json_data:", json_data, '-->File "rolo_resources.py", line 110')
+        print(" json_data post :", '-->File "rolo_resources.py", line 110')
+        print(" json_data post :", '-->File "rolo_resources.py", line 110')
+        print(" json_data post :", '-->File "rolo_resources.py", line 110')
+        print(" json_data post :", '-->File "rolo_resources.py", line 110')
+        print(" json_data post :", '-->File "rolo_resources.py", line 110')
         # print(" json_data:", json_data, '-->File "rolo_resources.py", line 110')
         # print(" json_data:", json_data, '-->File "rolo_resources.py", line 110')
 
 
 
         parsed_args = parser.parse_args()
-        input_username = parsed_args['username']
-        print(" input_username:", input_username, '-->File "rolo_resources.py", line 63')
-        print(" input_username:", input_username, '-->File "rolo_resources.py", line 63')
+        input_service = parsed_args['service']
+        input_name = parsed_args['name']
 
-        tell = session_roles_aj.query(Action).filter(Action.username == input_username).first()
+        tell = session_roles_aj.query(Action).filter(Action.name == input_name).first()
+
         if tell is not None:
             return tell
 
-        todo = Action(password=parsed_args['password'], username=parsed_args['username'])
+        todo = Action(name=parsed_args['name'])
+
+        aa = ChildService(name=parsed_args['service'])
+        print("  todo.services:", todo.services, '-->File "actions_resources.py", line 118')
+        print("  todo.services:", todo.services, '-->File "actions_resources.py", line 118')
+        print("  todo.services:", todo.services, '-->File "actions_resources.py", line 118')
+        print("  todo.services:", todo.services, '-->File "actions_resources.py", line 118')
+        print("  todo.services:", todo.services, '-->File "actions_resources.py", line 118')
+        print("  todo.services:", todo.services, '-->File "actions_resources.py", line 118')
+
+        todo.services.insert(0, session_roles_aj.query(ChildService).first())
         session_roles_aj.add(todo)
 
         # session_roles.commit()

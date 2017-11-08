@@ -83,6 +83,7 @@ class RoleResource(Resource):
 
     # @user_permission.require(http_exception=403)
     def delete(self, id):
+        # todo = session_roles_aj.query(Role).first()
         todo = session_roles_aj.query(Role).filter(Role.id == id).first()
         if not todo:
             abort(404, message="Todo {} doesn't exist".format(id))
