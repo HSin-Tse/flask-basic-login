@@ -30,12 +30,14 @@ var touch_screen = {
 	    self._object.addEventListener('touchmove', function(e) {
 		currntY = document.body.scrollTop;
                 var direction =  currntY - lastY;
-                if (direction > 0) {
+              var  now=(currntY + window.screen.availHeight);
+              var alldd = document.body.clientHeight;
+                if(now >= alldd/2  && now < alldd) {
                     self._direction = "down";
 
-		} else {
-		    self._direction = "up";
-		}
+		           } else {
+		            self._direction = "up";
+		           }
 
 		if(currntY == 0){
 		    self._direction = "最上";
