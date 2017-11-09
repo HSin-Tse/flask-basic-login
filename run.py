@@ -74,10 +74,15 @@ def who():
         ('Your current identity is: {id}.    | who You Are: {who}').format(id=g.identity.id, who=g.identity.provides))
 
 
-@cache.cached(timeout=50)
+# @cache.cached(timeout=0)
 @app.route('/')
 def aa():
-    return 'home'
+    return render_template('account/test.html')
+
+
+@app.route('/h5')
+def testh5():
+    return render_template('account/h5static.html')
 
 @app.route('/r')
 def r():
