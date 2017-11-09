@@ -29,20 +29,22 @@ var touch_screen = {
             var self = this;
 	    self._object.addEventListener('touchmove', function(e) {
 		currntY = document.body.scrollTop;
-                var direction =  currntY - lastY;
+                // var direction =  currntY - lastY;
               var  now=(currntY + window.screen.availHeight);
               var alldd = document.body.clientHeight;
-                if(now >= alldd/2  && now < alldd) {
+                if(now >= alldd/3*2  && now < alldd) {
                     self._direction = "down";
 
-		           } else {
-		            self._direction = "up";
-		           }
+		           } else if( now > alldd/3  && now < alldd/3*2 ){
+		            self._direction = "middle";
+		           }else{
+                    self._direction = "up";
+                   }
 
 		if(currntY == 0){
 		    self._direction = "最上";
 
-		} else if((currntY + window.screen.availHeight) >= document.body.clientHeight){
+		} else if(now >= alldd){
 		    self._direction = "最下";
             console.log('bottom bottom' );
 
