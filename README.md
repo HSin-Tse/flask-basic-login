@@ -1,6 +1,6 @@
 1. Install requisite packages:
 ```shell
-$ pip install -r pip.txt
+$ pip3 install -r pip.txt
 ```
 2. Create tables:
 ```shell
@@ -13,5 +13,7 @@ python3 manage.py upgrade
 ```
 python3 run.py
 
-python3 manage.py runserver
 ```
+
+
+
