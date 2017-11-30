@@ -11,5 +11,7 @@ python3 manage.py upgrade
 ```
 3. Run service:
 ```
+python3 run.py
+
 python3 manage.py runserver
 ```
