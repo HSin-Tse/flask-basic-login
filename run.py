@@ -1,4 +1,5 @@
 import os
+import requests
 from flask import (
     abort,
     flash,
@@ -12,6 +13,7 @@ from flask import (
 from flask import flash
 from flask_admin import Admin
 from flask_principal import ActionNeed, Permission
+from flask_restful.representations import json
 
 from app import create_app
 from app.controllers.admin import CustomFileAdmin, MyView, UserView, CustomModelView, ChildServiceModol, RoleModol, \
@@ -23,7 +25,7 @@ from app.admodels import Role, User, ChildService, Action
 # from app.admodels import ChildService, Action
 # from extensions import mail
 from flask_mail import Message
-
+from flask import request
 from extensions import mail, admin_permission, super_permission, cache
 
 app = create_app('config.BaseConfig')
@@ -84,11 +86,22 @@ def aa():
 def testh5():
     return render_template('account/h5static.html')
 
+
 @app.route('/r')
 def r():
     session_roles_aj.rollback()
 
     return 'home'
+
+
+@app.route('/proxy', methods=['GET'])
+def getTasks():
+    result = requests.get('https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg')  ## 请求转发
+    print(" result:", result, '-->File "run.py", line 100')
+    
+    conver_r = eval(bytes.decode(result.content))  ##进行一些类型转化
+
+    return json.dumps(conver_r), 200
 
 
 @app.errorhandler(401)
