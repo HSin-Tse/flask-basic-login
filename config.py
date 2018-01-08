@@ -19,7 +19,7 @@ class BaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     DEBUG = True
-    PORT = 5000
+    PORT = 5001
     # HOST = "127.0.0.1"
     HOST = "0.0.0.0"
     SECRET_KEY = "SOME SECRET"

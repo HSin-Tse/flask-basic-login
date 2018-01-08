@@ -1,4 +1,6 @@
 import os
+from contextlib import closing
+
 import requests
 from flask import (
     abort,
@@ -27,6 +29,8 @@ from app.admodels import Role, User, ChildService, Action
 from flask_mail import Message
 from flask import request
 from extensions import mail, admin_permission, super_permission, cache
+from flask import stream_with_context
+from flask import Response
 
 app = create_app('config.BaseConfig')
 # app = create_app('config.DevelopmentConfig')
@@ -50,9 +54,16 @@ admin.add_view(CustomFileAdmin(path,
 @app.before_request
 def before_request():
     ip = request.remote_addr
-    url = request.url
-    print(" ip:", ip, '-->File "run.py", line 53')
-    print(" url:", url, '-->File "run.py", line 54')
+    # url = request.url
+    # print(" url:", url, '-->File "run.py", line 56')
+
+    # print(" OOO request:",  request, '-->File "run.py", line 56')
+
+
+    # print(" request.url_root:", request.url_root, '-->File "run.py", line 55')
+
+    # print(" ip:", ip, '-->File "run.py", line 53')
+    # print(" url:", url, '-->File "run.py", line 54')
 
 
 @app.route('/testmail')
@@ -97,9 +108,9 @@ def r():
 @app.route('/proxy', methods=['GET'])
 def getTasks():
     result = requests.get('https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg')  ## 请求转发
-    print(" result:", result, '-->File "run.py", line 100')
-    
+
     conver_r = eval(bytes.decode(result.content))  ##进行一些类型转化
+    print(" json.dumps(conver_r):", json.dumps(conver_r), '-->File "run.py", line 102')
 
     return json.dumps(conver_r), 200
 
@@ -114,6 +125,52 @@ def authentication_failed(e):
 def authorisation_failed(e):
     return (
         ('Your current identity is: {id}.    | who You Are: {who}').format(id=g.identity.id, who=g.identity.provides))
+
+
+@app.route('/<path:url>', methods=['GET', 'POST'])
+def home(url):
+    # http: // a.ajmide.com
+    # http: // a.ajmide.com / get_history_list.php?type = 0 & i = 0 & c = 20
+    # http: // a.ajmide.com / v14 / getMainAudioCate.php
+
+
+
+    # print(" request.url,:", request.url, '-->File "run.py", line 134')
+    # print(" request.method:", request.method, '-->File "run.py", line 138')
+    # print(" request.method:", request.method, '-->File "run.py", line 138')
+    # print(" request.method:", request.method, '-->File "run.py", line 138')
+    # print(" request.method:", request.method, '-->File "run.py", line 138')
+    # print(" request.headers:", request.headers, '-->File "run.py", line 138')
+    # print(" request.get_data():", request.get_data(), '-->File "run.py", line 139')
+    # print(" request.cookies:", request.cookies, '-->File "run.py", line 140')
+
+    # url = "url%s"
+    # print(" request.param:", request.params, '-->File "run.py", line 147')
+    # print(" request.param:", request.params, '-->File "run.py", line 147')
+    # print(" request.param:", request.params, '-->File "run.py", line 147')
+
+    # req = requests.get(url ,stream = True)
+    # param = request.param,
+
+
+    with closing(
+
+            requests.request(
+                method=request.method,
+                url=request.url,
+                headers=request.headers,
+                data=request.get_data(),
+                cookies=request.cookies,
+                allow_redirects=False)
+    ) as resp:
+        excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
+        headers = [(name, value) for (name, value) in resp.raw.headers.items()
+                   if name.lower() not in excluded_headers]
+        response = Response(resp.content, resp.status_code, headers)
+        return response
+
+        # request
+    # return Response(stream_with_context(req.iter_content()), content_type = req.headers['content-type'])
 
 
 if __name__ == '__main__':
