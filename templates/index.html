@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Flask-SocketIO Test</title>
+    <title>Ajmide Static Tool</title>
     <!-- <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script> -->
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
 
@@ -19,30 +19,18 @@
             var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
             console.log(socket);
 
-            // Event handler for new connections.
-            // The callback function is invoked when a connection with the
-            // server is established.
+
             socket.on('connect', function() {
                 socket.emit('my_event', {data: 'I\'m connected!'});
             });
 
-            // Event handler for server sent data.
-            // The callback function is invoked whenever the server emits data
-            // to the client. The data is then displayed in the "Received"
-            // section of the page.
+
             socket.on('my_response', function(msg) {
-                <!--$('#log').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());-->
-
-
-                <!--var txt2=$("").text('<li class="list-group-item"> Received #' + msg.count + ': ' + msg.data +'</li>');-->
-                <!--console.log(txt2);-->
-
+  
                 $('#logbaoad').prepend(('<li class="list-group-item"> Received #' + msg.count + ': ' + msg.data +'</li>'));
             });
 
-            // Interval function that tests message latency by sending a "ping"
-            // message. The server then responds with a "pong" message and the
-            // round trip time is measured.
+
             var ping_pong_times = [];
             var start_time;
             window.setInterval(function() {
@@ -98,6 +86,8 @@
 
 
 
+
+
     </script>
 </head>
 <body>
@@ -105,7 +95,7 @@
 <div class="container">
 
 
-    <h1>Flask-SocketIO Test</h1>
+    <h1>Ajmide Static Tool</h1>
 
     <p>Async mode is: <b>{{ async_mode }}</b></p>
     <p>Average ping/pong latency: <b><span id="ping-pong"></span>ms</b></p>
@@ -138,24 +128,25 @@
     <form id="disconnect" method="POST" action="#">
         <input type="submit" value="Disconnect">
     </form>
-    <h2>Receive:</h2>
 
 
-    </h1>
-
-    <div class="container">
-
-
-        <div class="row">
-            <div class="col-xs-6 col-md-offset-3">
-
-            </div>
+    <div class="row">
+        <div class="col-xs-6 col-md-offset-0">
+            <h2>Receive:</h2>
 
         </div>
-        <ul id="logbaoad" class="list-group">
 
-        </ul>
     </div>
+
+    <div class="row">
+        <div class="col-xs-6 col-md-offset-3">
+
+        </div>
+
+    </div>
+    <ul id="logbaoad" class="list-group active">
+
+    </ul>
 
 
 </div>
