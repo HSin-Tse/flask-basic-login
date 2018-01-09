@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from threading import Lock
-
+import urllib.parse
 import requests
 from flask import Flask, render_template, session, request, Response
 from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
@@ -115,17 +115,25 @@ def test_disconnect():
 def home(url):
     # emit('my_pong')
 
+    session['receive_count'] = session.get('receive_count', 0) + 1
 
-    socketio.emit('my_response',
-                  {'data': 'Server generated event', 'count': request.url},
-                  namespace='/test')
+    # socketio.emit('my_response',
+    #               {'data': request.url, 'count': session['receive_count']},
+    #               namespace='/test')
 
     print(" request.url:", request.url, '-->File "runProxy.py", line 12')
-    a = ("http://stat.ajmide.com/stat" == request.url)
+    # a = ("http://stat.ajmide.com/stat" == request.url)
+    # a = request.url.contain('stat.ajmide.com')
+    # a = (request.url.indexOf("stat.ajmide.com") > 0)
+    isstatic = ("stat.ajmide.com" in request.url)
+
     print(" request.method:", request.method, '-->File "runProxy.py", line 12')
-    print(" a:", a, '-->File "runProxy.py", line 14')
-    if (a):
+    if (isstatic):
         print(" request.get_data():", request.get_data(), '-->File "runProxy.py", line 16')
+        socketio.emit('my_response',
+                      {'data': request.url, 'count': session['receive_count'],
+                       'body': urllib.parse.unquote(str(request.get_data()), encoding="utf-8")},
+                      namespace='/test')
 
         return ""
 
@@ -158,6 +166,6 @@ def home(url):
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True, port=5001)
-    # socketio.run(app, debug=True, host="0.0.0.0", port=5001)
+    # socketio.run(app, debug=True, port=5001)
+    socketio.run(app, debug=True, host="0.0.0.0", port=5001)
     # socketio.run(host="0.0.0.0", port=5001, debug=True, threaded=True)

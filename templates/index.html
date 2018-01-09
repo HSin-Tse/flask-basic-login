@@ -27,8 +27,13 @@
 
             socket.on('my_response', function(msg) {
   
-                $('#logbaoad').prepend(('<li class="list-group-item"> Received #' + msg.count + ': ' + msg.data +'</li>'));
+                $('#logbaoad').prepend(('<li class="list-group-item"> Received #' + msg.count + ': ' + msg.data +':'+msg.body+'</li>'));
+
+
+                $('#clickbaoad').prepend(('<tr> ' +'<td> A:'+ msg.count +'</td>' +'<td> B:'+ msg.data +'</td>'+'<td> C:'+ msg.body+'</td>'+'</tr>'));
             });
+
+
 
 
             var ping_pong_times = [];
@@ -88,9 +93,10 @@
 
 
 
+
     </script>
 </head>
-<body>
+<body background="http://pic.qiantucdn.com/58pic/12/85/85/37D58PICSaM.jpg!/fw/780/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center/crop/1024x768a0a0">
 
 <div class="container">
 
@@ -99,35 +105,6 @@
 
     <p>Async mode is: <b>{{ async_mode }}</b></p>
     <p>Average ping/pong latency: <b><span id="ping-pong"></span>ms</b></p>
-    <h2>Send:</h2>
-    <form id="emit" method="POST" action='#'>
-        <input type="text" name="emit_data" id="emit_data" placeholder="Message">
-        <input type="submit" value="Echo">
-    </form>
-    <form id="broadcast" method="POST" action='#'>
-        <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Message">
-        <input type="submit" value="Broadcast">
-    </form>
-    <form id="join" method="POST" action='#'>
-        <input type="text" name="join_room" id="join_room" placeholder="Room Name">
-        <input type="submit" value="Join Room">
-    </form>
-    <form id="leave" method="POST" action='#'>
-        <input type="text" name="leave_room" id="leave_room" placeholder="Room Name">
-        <input type="submit" value="Leave Room">
-    </form>
-    <form id="send_room" method="POST" action='#'>
-        <input type="text" name="room_name" id="room_name" placeholder="Room Name">
-        <input type="text" name="room_data" id="room_data" placeholder="Message">
-        <input type="submit" value="Send to Room">
-    </form>
-    <form id="close" method="POST" action="#">
-        <input type="text" name="close_room" id="close_room" placeholder="Room Name">
-        <input type="submit" value="Close Room">
-    </form>
-    <form id="disconnect" method="POST" action="#">
-        <input type="submit" value="Disconnect">
-    </form>
 
 
     <div class="row">
@@ -147,7 +124,28 @@
     <ul id="logbaoad" class="list-group active">
 
     </ul>
+    <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">點擊埋點</div>
+  <!--<div class="panel-body">-->
+    <!--&lt;!&ndash;<p></p>&ndash;&gt;-->
+      <!--<hr>-->
+  <!--</div>-->
 
+    <table style=" background-color:#BBBBBB;" id="blackboard" class="table table-striped">
+        <thead>
+        <tr style="background-color:#888888; color:#ffffff">
+            <th>ID</th>
+            <th>URL</th>
+            <th>body</th>
+        </tr>
+        </thead>
+        <tbody id="clickbaoad">
+
+        </tbody>
+    </table>
+
+</div>
 
 </div>
 
