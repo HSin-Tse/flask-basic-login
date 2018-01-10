@@ -13,7 +13,20 @@ import json
 # the best option based on installed packages.
 async_mode = None
 
-app = Flask(__name__)
+
+class CustomFlask(Flask):
+    jinja_options = Flask.jinja_options.copy()
+    jinja_options.update(dict(
+        block_start_string='(A',
+        block_end_string='A)',
+        variable_start_string='(B',
+        variable_end_string='B)',
+        comment_start_string='(C',
+        comment_end_string='C)',
+    ))
+
+
+app = CustomFlask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, async_mode=async_mode)
 thread = None
@@ -123,9 +136,9 @@ def home(url):
 
     if (isstatic):
         if (request.method == 'GET'):
-            argu=request.args
-            dicarg=argu.to_dict()
-            jsondic= json.dumps(dicarg)
+            argu = request.args
+            dicarg = argu.to_dict()
+            jsondic = json.dumps(dicarg)
             jsondicCdem = demjson.encode(jsondic)
             vlu = request.args.get('vlu', 'eror')
             jsonC = json.dumps(request.args)
@@ -134,7 +147,6 @@ def home(url):
                           {'data': request.url, 'count': 0,
                            'body': urllib.parse.unquote(str(request.get_data()), encoding="utf-8")},
                           namespace='/test')
-
 
         if (request.method == 'POST'):
             print(" request.url:", request.args, '-->File "runProxy.py", line 12')
