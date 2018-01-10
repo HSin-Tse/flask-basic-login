@@ -23,14 +23,15 @@
         <button @click="startGame">startGame</button>
         <h1>playerHealth :{{playerHealth}}</h1>
         <p>Average ping/pong latency: <b><span id="ping-pong"></span>ms</b></p>
+        <h2>Receive:</h2>
 
         <template>
-            <el-table :data="tableData" stripe style="width: 100%">
-                <el-table-column fixed prop="date" label="日期" width="180">
+            <el-table border  max-height="1000" :data="tableData" stripe style="width: 100%">
+                <el-table-column  fixed prop="date" label="ID" width="60">
                 </el-table-column>
-                <el-table-column prop="name" label="姓名" width="180">
+                <el-table-column prop="name" label="URL" width="600" >
                 </el-table-column>
-                <el-table-column prop="address" label="地址">
+                <el-table-column prop="address" label="body">
                 </el-table-column>
             </el-table>
         </template>
@@ -56,7 +57,7 @@
                 <!--<hr>-->
                 <!--</div>-->
 
-                <table style=" background-color:#BBBBBB;" id="blackboard" class="table table-responsive table-striped ">
+                <table border style=" background-color:#BBBBBB;" id="blackboard" class="table table-responsive table-striped ">
                     <thead>
                     <tr style="background-color:#888888; color:#ffffff">
                         <th>ID</th>
@@ -184,23 +185,9 @@ var Main = {
     data() {
       return {
       playerHealth: 'aa',
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
+        tableData: [
+
+        ]
       }
     }
   }
