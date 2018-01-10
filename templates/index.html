@@ -11,7 +11,79 @@
     <script src="//unpkg.com/vue/dist/vue.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <script type="text/javascript" charset="utf-8">
+
+</head>
+<body background="http://pic.qiantucdn.com/58pic/12/85/85/37D58PICSaM.jpg!/fw/780/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center/crop/1024x768a0a0">
+
+<div class="container-fluid">
+
+
+    <h1>Ajmide Static Tool</h1>
+    <div id="app">
+        <button @click="startGame">startGame</button>
+        <h1>playerHealth :{{playerHealth}}</h1>
+        <p>Average ping/pong latency: <b><span id="ping-pong"></span>ms</b></p>
+
+        <template>
+            <el-table :data="tableData" stripe style="width: 100%">
+                <el-table-column fixed prop="date" label="日期" width="180">
+                </el-table-column>
+                <el-table-column prop="name" label="姓名" width="180">
+                </el-table-column>
+                <el-table-column prop="address" label="地址">
+                </el-table-column>
+            </el-table>
+        </template>
+    </div>
+
+
+    <div class="row">
+        <div class=" col-md-12 col-md-offset-0">
+            <h2>Receive:</h2>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12   col-xd-12 col-md-offset-0">
+
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">點擊埋點</div>
+                <!--<div class="panel-body">-->
+                <!--&lt;!&ndash;<p></p>&ndash;&gt;-->
+                <!--<hr>-->
+                <!--</div>-->
+
+                <table style=" background-color:#BBBBBB;" id="blackboard" class="table table-responsive table-striped ">
+                    <thead>
+                    <tr style="background-color:#888888; color:#ffffff">
+                        <th>ID</th>
+                        <th>URL</th>
+                        <th>body</th>
+                    </tr>
+                    </thead>
+                    <tbody id="clickbaoad">
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+</body>
+<script>
+
+var Main = {
+    created: function () {
+
         var total=0;
         $(document).ready(function() {
 
@@ -28,9 +100,10 @@
 
 
             socket.on('my_response', function(msg) {
-  
 
                total++;
+               ctt.addLog(total,msg.data,msg.body);
+
                 $('#clickbaoad').prepend(('<tr> ' +'<td> '+ total+'</td>' +'<td> '+ msg.data +'</td>'+'<td> '+ msg.body+'</td>'+'</tr>'));
             });
 
@@ -91,96 +164,20 @@
         });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </script>
-</head>
-<body background="http://pic.qiantucdn.com/58pic/12/85/85/37D58PICSaM.jpg!/fw/780/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center/crop/1024x768a0a0">
-
-<div class="container-fluid">
-
-
-    <h1>Ajmide Static Tool</h1>
-    <div id="app">
-        <button @click="startGame">startGame</button>
-        <h1>playerHealth :{{playerHealth}}</h1>
-        <p>Average ping/pong latency: <b><span id="ping-pong"></span>ms</b></p>
-
-        <template>
-            <el-table  :data="tableData" stripe style="width: 100%">
-                <el-table-column fixed prop="date" label="日期" width="180">
-                </el-table-column>
-                <el-table-column prop="name" label="姓名" width="180">
-                </el-table-column>
-                <el-table-column prop="address" label="地址">
-                </el-table-column>
-            </el-table>
-        </template>
-    </div>
-
-
-    <div class="row">
-        <div class=" col-md-12 col-md-offset-0">
-            <h2>Receive:</h2>
-
-        </div>
-
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12   col-xd-12 col-md-offset-0">
-
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading">點擊埋點</div>
-                <!--<div class="panel-body">-->
-                <!--&lt;!&ndash;<p></p>&ndash;&gt;-->
-                <!--<hr>-->
-                <!--</div>-->
-
-                <table style=" background-color:#BBBBBB;" id="blackboard" class="table table-responsive table-striped ">
-                    <thead>
-                    <tr style="background-color:#888888; color:#ffffff">
-                        <th>ID</th>
-                        <th>URL</th>
-                        <th>body</th>
-                    </tr>
-                    </thead>
-                    <tbody id="clickbaoad">
-
-                    </tbody>
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-</div>
-
-</body>
-<script>
-
-var Main = {
+    },
     methods:{
       startGame: function(){
          this.tableData.unshift({
            date: 'A',
            name: 'Playddd',
            address: 'Player hdddddeals for 10'
+          });
+       },
+       addLog: function(a,b,c){
+         this.tableData.unshift({
+           date: a,
+           name: b,
+           address: c
           });
        },
     },
@@ -208,7 +205,9 @@ var Main = {
     }
   }
 var Ctor = Vue.extend(Main)
-new Ctor().$mount('#app')
+var ctt=new Ctor().$mount('#app')
+
+
 
 
 
