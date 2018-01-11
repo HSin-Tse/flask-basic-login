@@ -138,8 +138,8 @@ def home(url):
         if (request.method == 'GET'):
             argu = request.args
             dicarg = argu.to_dict()
-            jsondic = json.dumps(dicarg)
-            jsondicCdem = demjson.encode(jsondic)
+            # jsondic = json.dumps(dicarg)
+            # jsondicCdem = demjson.encode(jsondic)
             # vlu = request.args.get('vlu', 'eror')
             # vlu = request.args.get('vlu', 'eror')
             # vlu = request.args.get('vlu', 'eror')
@@ -151,7 +151,6 @@ def home(url):
             socketio.emit('my_response',
                           {
                               't1': t1,
-
                               'data': request.url, 'count': 0,
                               'body': urllib.parse.unquote(str(request.get_data()), encoding="utf-8")
                           },
