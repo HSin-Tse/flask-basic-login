@@ -35,8 +35,11 @@
                 </el-table-column>
                 <el-table-column prop="address" label="body">
                 </el-table-column>
-                <el-table-column prop="t1" label="t1">
+                <!--<el-table-column prop="t1" label="t1">-->
+                <!--</el-table-column>-->
+                <el-table-column :key='fruit' v-for='(fruit,index) in formThead'  :prop="fruit" :label="fruit">
                 </el-table-column>
+
                 <el-table-column
                         fixed="right"
                         label="操作"
@@ -73,10 +76,11 @@ var Main = {
             console.log(socket);
 
 
-            socket.on('connect', function() {
+            socket.on('connect', function(msg) {
+
+
                 socket.emit('my_event', {data: 'I\'m connected!'});
             });
-
 
 
 
@@ -141,6 +145,11 @@ var Main = {
                ctt.addLog(total,msg.data,msg.body,msg.t1,msg);
 
             });
+
+            socket.on('init', function(msg) {
+                ctt.intitial(msg);
+
+            });
         });
 
 
@@ -163,6 +172,11 @@ var Main = {
           }
         }
 
+      ,
+      intitial:function(data){
+
+      this.formThead=data;
+      }
       ,
       clean: function(){
 
@@ -187,6 +201,10 @@ var Main = {
         tableData: [
 
         ]
+        ,
+        formThead:['t1','vlu'],
+
+
       }
     }
   }
