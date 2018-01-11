@@ -138,7 +138,7 @@ var Main = {
             socket.on('my_response', function(msg) {
 
                total++;
-               ctt.addLog(total,msg.data,msg.body,msg.t1);
+               ctt.addLog(total,msg.data,msg.body,msg.t1,msg);
 
             });
         });
@@ -169,13 +169,17 @@ var Main = {
          this.tableData=[];
 
        },
-       addLog: function(a,b,c,t1){
-         this.tableData.unshift({
-           date: a,
-           name: b,
-           address: c,
-           t1: t1
-          });
+       addLog: function(a,b,c,t1,msg){
+
+       msg.date=a;
+       msg.name=b;
+       msg.address=c;
+         this.tableData.unshift(
+
+
+           msg
+
+          );
        },
     },
     data() {
@@ -188,21 +192,6 @@ var Main = {
   }
 var Ctor = Vue.extend(Main)
 var ctt=new Ctor().$mount('#app')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
