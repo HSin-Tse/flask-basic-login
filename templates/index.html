@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 
+
 </head>
 <body style="height: 100%"
       background="http://pic.qiantucdn.com/58pic/12/85/85/37D58PICSaM.jpg!/fw/780/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center/crop/1024x768a0a0">
@@ -26,7 +27,7 @@
         <h2>Receive:</h2>
 
         <template>
-            <el-table border :data="tableData" stripe style="width: 100%">
+            <el-table border :data="tableData" stripe style="width: 100%" :row-class-name="tableRowClassName">
                 <el-table-column fixed prop="date" label="ID" width="60">
                 </el-table-column>
                 <el-table-column prop="name" label="URL" width="600">
@@ -42,7 +43,7 @@
                     <template slot-scope="scope">
                         <el-button
                                 @click.native.prevent="deleteRow(scope.$index, tableData)"
-                                type="text"
+                                type="danger"
                                 size="small">
                             移除
                         </el-button>
@@ -148,6 +149,19 @@ var Main = {
        deleteRow(index, rows) {
         this.tableData.splice(index, 1);
       },
+      tableRowClassName({row, rowIndex}) {
+          var  k=(row.t1 ==='error');
+            console.log(k);
+            console.log(row.t1);
+          if(row.t1 =='error')
+          {
+             return 'warning-row';
+          }else{
+            return 'success-row';
+          }
+        }
+
+      ,
       clean: function(){
 
          this.tableData=[];
@@ -184,5 +198,22 @@ var ctt=new Ctor().$mount('#app')
 
 
 
+
+
+
+
 </script>
+<style>
+  .el-table .warning-row {
+    background: #ff0000;
+  }
+
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
+
+
+
+
+</style>
 </html>

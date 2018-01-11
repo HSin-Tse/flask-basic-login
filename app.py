@@ -144,8 +144,8 @@ def home(url):
             # vlu = request.args.get('vlu', 'eror')
             # vlu = request.args.get('vlu', 'eror')
             # vlu = request.args.get('vlu', 'eror')
-            t1 = request.args.get('t1', 'eror')
-            vlu = request.args.get('vlu', 'eror')
+            t1 = request.args.get('t1', 'error')
+            vlu = request.args.get('vlu', 'error')
             jsonC = json.dumps(request.args)
             jsonCdem = demjson.encode(request.args)
             socketio.emit('my_response',
