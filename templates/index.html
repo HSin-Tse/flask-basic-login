@@ -13,67 +13,30 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 
 </head>
-<body background="http://pic.qiantucdn.com/58pic/12/85/85/37D58PICSaM.jpg!/fw/780/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center/crop/1024x768a0a0">
+<body style="height: 100%"
+      background="http://pic.qiantucdn.com/58pic/12/85/85/37D58PICSaM.jpg!/fw/780/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center/crop/1024x768a0a0">
 
 <div class="container-fluid">
 
 
     <h1>Ajmide Static Tool</h1>
     <div id="app">
-        <button @click="startGame">startGame</button>
-        <h1>playerHealth :{{playerHealth}}</h1>
+        <button @click="clean">Clean</button>
         <p>Average ping/pong latency: <b><span id="ping-pong"></span>ms</b></p>
         <h2>Receive:</h2>
 
         <template>
-            <el-table border  max-height="1000" :data="tableData" stripe style="width: 100%">
-                <el-table-column  fixed prop="date" label="ID" width="60">
+            <el-table border :data="tableData" stripe style="width: 100%">
+                <el-table-column fixed prop="date" label="ID" width="60">
                 </el-table-column>
-                <el-table-column prop="name" label="URL" width="600" >
+                <el-table-column prop="name" label="URL" width="600">
                 </el-table-column>
                 <el-table-column prop="address" label="body">
                 </el-table-column>
+                <el-table-column prop="t1" label="t1">
+                </el-table-column>
             </el-table>
         </template>
-    </div>
-
-
-    <div class="row">
-        <div class=" col-md-12 col-md-offset-0">
-            <h2>Receive:</h2>
-
-        </div>
-
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12   col-xd-12 col-md-offset-0">
-
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading">點擊埋點</div>
-                <!--<div class="panel-body">-->
-                <!--&lt;!&ndash;<p></p>&ndash;&gt;-->
-                <!--<hr>-->
-                <!--</div>-->
-
-                <table border style=" background-color:#BBBBBB;" id="blackboard" class="table table-responsive table-striped ">
-                    <thead>
-                    <tr style="background-color:#888888; color:#ffffff">
-                        <th>ID</th>
-                        <th>URL</th>
-                        <th>body</th>
-                    </tr>
-                    </thead>
-                    <tbody id="clickbaoad">
-
-                    </tbody>
-                </table>
-
-            </div>
-
-        </div>
-
     </div>
 
 
@@ -100,13 +63,6 @@ var Main = {
             });
 
 
-            socket.on('my_response', function(msg) {
-
-               total++;
-               ctt.addLog(total,msg.data,msg.body);
-
-                $('#clickbaoad').prepend(('<tr> ' +'<td> '+ total+'</td>' +'<td> '+ msg.data +'</td>'+'<td> '+ msg.body+'</td>'+'</tr>'));
-            });
 
 
 
@@ -162,29 +118,35 @@ var Main = {
                 socket.emit('disconnect_request');
                 return false;
             });
+
+
+            socket.on('my_response', function(msg) {
+
+               total++;
+               ctt.addLog(total,msg.data,msg.body,msg.t1);
+
+            });
         });
 
 
     },
     methods:{
-      startGame: function(){
-         this.tableData.unshift({
-           date: 'A',
-           name: 'Playddd',
-           address: 'Player hdddddeals for 10'
-          });
+      clean: function(){
+
+         this.tableData=[];
+
        },
-       addLog: function(a,b,c){
+       addLog: function(a,b,c,t1){
          this.tableData.unshift({
            date: a,
            name: b,
-           address: c
+           address: c,
+           t1: t1
           });
        },
     },
     data() {
       return {
-      playerHealth: 'aa',
         tableData: [
 
         ]
@@ -193,6 +155,8 @@ var Main = {
   }
 var Ctor = Vue.extend(Main)
 var ctt=new Ctor().$mount('#app')
+
+
 
 
 

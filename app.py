@@ -140,12 +140,21 @@ def home(url):
             dicarg = argu.to_dict()
             jsondic = json.dumps(dicarg)
             jsondicCdem = demjson.encode(jsondic)
+            # vlu = request.args.get('vlu', 'eror')
+            # vlu = request.args.get('vlu', 'eror')
+            # vlu = request.args.get('vlu', 'eror')
+            # vlu = request.args.get('vlu', 'eror')
+            t1 = request.args.get('t1', 'eror')
             vlu = request.args.get('vlu', 'eror')
             jsonC = json.dumps(request.args)
             jsonCdem = demjson.encode(request.args)
             socketio.emit('my_response',
-                          {'data': request.url, 'count': 0,
-                           'body': urllib.parse.unquote(str(request.get_data()), encoding="utf-8")},
+                          {
+                              't1': t1,
+
+                              'data': request.url, 'count': 0,
+                              'body': urllib.parse.unquote(str(request.get_data()), encoding="utf-8")
+                          },
                           namespace='/test')
 
         if (request.method == 'POST'):
