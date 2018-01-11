@@ -7,6 +7,10 @@ import requests
 from flask import Flask, render_template, session, request, Response
 from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
 import json
+import os
+from contextlib import closing
+
+from flask import g
 
 # Set this variable to "threading", "eventlet" or "gevent" to test the
 # different async modes, or leave it set to None for the application to choose
@@ -31,9 +35,26 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 thread_lock = Lock()
-from contextlib import closing
 
-from flask import g
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))  # refers to application_top
+APP_STATIC_TXT = os.path.join(APP_ROOT, 'static/jsons')  # 设置一个专门的类似全局变量的东西
+print(" APP_STATIC_TXT:", APP_STATIC_TXT, '-->File "app.py", line 40')
+print(" APP_STATIC_TXT:", APP_STATIC_TXT, '-->File "app.py", line 40')
+print(" APP_STATIC_TXT:", APP_STATIC_TXT, '-->File "app.py", line 40')
+
+v2config = []
+with open(os.path.join(APP_STATIC_TXT, 'v2click.json'), encoding='utf-8') as f:
+    s = f.readlines()  # 读取前五个字节
+
+    doc = json.loads(''.join(s))
+    print(" doc:", len(doc), '-->File "app.py", line 49')
+    print(" doc:", doc[0], '-->File "app.py", line 49')
+    print(" doc:", doc[1], '-->File "app.py", line 49')
+    print(" doc:", doc[2], '-->File "app.py", line 49')
+    print(" doc:", doc, '-->File "app.py", line 49')
+    # g.v1cli = doc
+    v2config = doc
+    f.close()
 
 
 def background_thread():
@@ -132,34 +153,42 @@ def test_disconnect():
 
 @app.route('/<path:url>', methods=['GET', 'POST'])
 def home(url):
+    # print("  v2config:", v2config, '-->File "app.py", line 153')
+
     isstatic = ("stat.ajmide.com" in request.url)
 
     if (isstatic):
         if (request.method == 'GET'):
             argu = request.args
-            dicarg = argu.to_dict()
-            # jsondic = json.dumps(dicarg)
-            # jsondicCdem = demjson.encode(jsondic)
-            # vlu = request.args.get('vlu', 'eror')
-            # vlu = request.args.get('vlu', 'eror')
-            # vlu = request.args.get('vlu', 'eror')
-            # vlu = request.args.get('vlu', 'eror')
-            t1 = request.args.get('t1', 'error')
-            vlu = request.args.get('vlu', 'error')
-            jsonC = json.dumps(request.args)
-            jsonCdem = demjson.encode(request.args)
+            # dicarg = argu.to_dict()
+
+            t1 = argu.get('t1', 'error')
+            vlu = argu.get('vlu', 'error')
+            ctl = argu.get('ctl', 'error')
+
+            tse = {
+                'data': request.url,
+                'count': 0,
+                'body': urllib.parse.unquote(str(request.get_data()))
+            }
+            for i in range(len(v2config)):
+                # print(" v2config:", v2config[i], '-->File "app.py", line 169')
+                key1 = v2config[i]['参数']
+                v2config[i][key1] = argu.get(key1, 'error')
+                tse[key1]=argu.get(key1, 'error')
+                # print(" v2config:", v2config[i], '-->File "app.py", line 169')
+            # print(" v2config:", v2config, '-->File "app.py", line 173')
+
+            print(" tse:", tse, '-->File "app.py", line 182')
+            
+
             socketio.emit('my_response',
-                          {
-                              't1': t1,
-                              'data': request.url, 'count': 0,
-                              'body': urllib.parse.unquote(str(request.get_data()), encoding="utf-8")
-                          },
+                          tse,
                           namespace='/test')
 
         if (request.method == 'POST'):
             print(" request.url:", request.args, '-->File "runProxy.py", line 12')
-
-            print(" request.method:", request.method, '-->File "app.py", line 127')
+            # print(" request.method:", request.method, '-->File "app.py", line 127')
 
         # g.con = g.con + 1
         # print(" request.get_data():", request.get_data(), '-->File "runProxy.py", line 16')

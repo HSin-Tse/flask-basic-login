@@ -25,9 +25,10 @@
         <button @click="clean">Clean</button>
         <p>Average ping/pong latency: <b><span id="ping-pong"></span>ms</b></p>
         <h2>Receive:</h2>
+        <!--<h2>{{tableData}}:</h2>-->
 
         <template>
-            <el-table border :data="tableData" stripe style="width: 100%" :row-class-name="tableRowClassName">
+            <el-table border :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
                 <el-table-column fixed prop="date" label="ID" width="60">
                 </el-table-column>
                 <el-table-column prop="name" label="URL" width="600">
@@ -150,13 +151,14 @@ var Main = {
         this.tableData.splice(index, 1);
       },
       tableRowClassName({row, rowIndex}) {
-          var  k=(row.t1 ==='error');
-            console.log(k);
-            console.log(row.t1);
-          if(row.t1 =='error')
-          {
-             return 'warning-row';
-          }else{
+          var  k=(row.t1 ==="error");
+          var  l=typeof(row.t1) ==undefined;
+
+           console.log(rowIndex +'|'+k+'|'+row.t1 +'|'+l);
+           console.log(row);
+           if(k){
+            return 'warning-row';
+          }else {
             return 'success-row';
           }
         }
@@ -202,15 +204,24 @@ var ctt=new Ctor().$mount('#app')
 
 
 
+
+
+
 </script>
 <style>
   .el-table .warning-row {
-    background: #ff0000;
+    background: #FF5151;
   }
 
   .el-table .success-row {
     background: #f0f9eb;
   }
+   .el-table .no-row {
+    background: #00ffff
+  }
+
+
+
 
 
 
